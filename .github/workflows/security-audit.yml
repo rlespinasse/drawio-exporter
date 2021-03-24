@@ -1,0 +1,23 @@
+name: Security audit
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  push:
+    paths:
+      - "**/Cargo.toml"
+      - "**/Cargo.lock"
+
+jobs:
+  security_audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: technote-space/auto-cancel-redundant-workflow@v1
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Audit check
+        uses: actions-rs/audit-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

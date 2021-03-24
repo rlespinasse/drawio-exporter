@@ -1,0 +1,56 @@
+= drawio-exporter
+
+:crate-badge: https://img.shields.io/crates/v/drawio-exporter.svg
+:crate: https://crates.io/crates/drawio-exporter
+:ci-badge: https://github.com/rlespinasse/drawio-exporter/workflows/Continuous%20integration/badge.svg
+:security-badge: https://github.com/rlespinasse/drawio-exporter/workflows/Security%20audit/badge.svg
+:actions: https://github.com/rlespinasse/drawio-exporter/actions
+:license-badge: https://img.shields.io/github/license/rlespinasse/drawio-exporter
+:license: https://github.com/rlespinasse/drawio-exporter/blob/v1.x/LICENSE
+:cargo-installation: https://doc.rust-lang.org/cargo/getting-started/installation.html
+
+image:{crate-badge}[Crate,link={crate}]
+image:{ci-badge}[CI Status,link={actions}]
+image:{security-badge}[Security Audit Status,link={actions}]
+image:{license-badge}[License,link={license}]
+
+Drawio-exporter provide enhance capabilities to the export feature of drawio-desktop.
+
+== Features
+
+* Recursive export
+* Partial export (newer, or based on git reference)
+* Additional export formats with link extraction
+
+== Supported Export formats
+
+* **draw.io** export formats : jpg, pdf, png, svg, vsdx, and xml
+* **drawio-exporter** additional formats
+** adoc - Export in png and create an additional asciidoc file (with support external links).
+
+== Installation
+
+* Via {cargo-installation}[Cargo]
++
+[source,shell]
+----
+cargo install drawio-exporter
+----
+
+* Build Manually
++
+[source,shell]
+----
+git clone --depth 1 git@github.com:rlespinasse/drawio-exporter.git ~/.drawio-exporter
+cd ~/.drawio-exporter
+cargo install --path .
+cargo build --release
+# put the resulting `target/release/drawio-exporter` executable on your PATH.
+----
+
+== Contributing
+
+Pull requests are welcome.
+For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
