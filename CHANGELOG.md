@@ -6,8 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
-
 ## [Unreleased] - ReleaseDate
+
+## [1.0.0] - 2021-03-24
 
 ### Added
 
@@ -19,5 +20,6 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   * from a git repository reference (like commit id)
 
 <!-- next-url -->
+[Unreleased]: https://github.com/rlespinasse/wints/compare/v1.0.0...HEAD
 
-[Unreleased]: https://github.com/rlespinasse/drawio-exported/compare/cb9aec8...HEAD
+[1.0.0]: https://github.com/rlespinasse/drawio-exported/compare/cb9aec8...v1.0.0
