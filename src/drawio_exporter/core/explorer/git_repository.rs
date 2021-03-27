@@ -37,14 +37,14 @@ fn collect_files_from_git(root_path: &Path, git_reference: &str) -> Result<Vec<P
     let diff_files = diff_output
         .deltas()
         .map(|delta| PathBuf::from(delta.new_file().path().unwrap()))
+        .filter(|path| match path.extension() {
+            Some(ext) => ext.eq("drawio"),
+            None => false,
+        })
         .filter(|path| {
             path.canonicalize()
                 .unwrap()
                 .starts_with(root_path.canonicalize().unwrap())
-        })
-        .filter(|path| match path.extension() {
-            Some(ext) => ext.eq("drawio"),
-            None => false,
         })
         .collect::<Vec<PathBuf>>();
 
