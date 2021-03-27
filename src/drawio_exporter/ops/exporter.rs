@@ -33,9 +33,16 @@ pub struct ExporterOptions<'a> {
 }
 
 pub fn exporter(options: ExporterOptions) -> Result<()> {
-    let input_path = PathBuf::from(options.path);
+    // Fallback in case of empty path, we take the current directory
+    let input_path = match options.path {
+        "" => PathBuf::from("."),
+        path => PathBuf::from(path),
+    };
     if !input_path.exists() {
-        return Err(anyhow!("path must exist (as directory or file)"));
+        return Err(anyhow!(format!(
+            "path '{}' must exist (as directory or file)",
+            options.path
+        )));
     }
 
     let drawio_files = match options.on_git_changes_since_reference {
