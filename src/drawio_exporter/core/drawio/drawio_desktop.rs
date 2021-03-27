@@ -6,18 +6,27 @@ use std::process::Command;
 
 pub struct DrawioDesktop<'a> {
     application: &'a str,
+    is_headless: bool,
 }
 
 impl<'a> DrawioDesktop<'a> {
-    pub fn new(application_path: Option<&'a str>) -> Result<DrawioDesktop> {
+    pub fn new(application_path: Option<&'a str>, is_headless: bool) -> Result<DrawioDesktop> {
         let application = application_path
-            .or(default_application_os())
+            .or_else(default_application_os)
             .with_context(|| "missing draw.io desktop application path")?;
-        Ok(DrawioDesktop { application })
+        Ok(DrawioDesktop {
+            application,
+            is_headless,
+        })
     }
 
     pub fn execute(&self, arguments: ExportArguments<'a>) -> Result<()> {
-        let shell_arguments = arguments.as_shell_arguments();
+        let mut shell_arguments = arguments.as_shell_arguments();
+
+        if self.is_headless {
+            shell_arguments.push("--no-sandbox");
+            shell_arguments.push("--disable-dev-shm-usage");
+        }
 
         let command_output = Command::new(self.application)
             .args(&shell_arguments)
