@@ -38,7 +38,6 @@ fn collect_files_from_git(root_path: &Path, git_reference: &str) -> Result<Vec<P
         .deltas()
         .map(|delta| PathBuf::from(delta.new_file().path().unwrap()))
         .filter(|path| {
-            println!("{}", path.display());
             path.canonicalize()
                 .unwrap()
                 .starts_with(root_path.canonicalize().unwrap())
