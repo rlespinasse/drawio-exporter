@@ -14,6 +14,7 @@ use std::path::PathBuf;
 
 pub struct ExporterOptions<'a> {
     pub application: Option<&'a str>,
+    pub drawio_desktop_headless: bool,
     pub folder: &'a str,
     pub on_filesystem_changes: bool,
     pub on_git_changes_since_reference: Option<&'a str>,
@@ -49,7 +50,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
     }
     .with_context(|| format!("can't explore path {}", &input_path.display()))?;
 
-    let drawio_desktop = DrawioDesktop::new(options.application)?;
+    let drawio_desktop = DrawioDesktop::new(options.application, options.drawio_desktop_headless)?;
 
     prepare_export_folders(options.folder, &drawio_files)
         .with_context(|| format!("can't prepare export folders named {}", options.folder))?;

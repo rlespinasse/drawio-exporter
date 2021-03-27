@@ -12,6 +12,9 @@ pub fn args() -> Vec<Arg> {
             .value_name("path")
             .short("A")
             .long("application"),
+        arg("drawio-desktop-headless")
+            .help("Enable Draw.io Desktop headless mode")
+            .long("drawio-desktop-headless"),
         arg("format")
             .help("Exported format")
             .value_name("format")
@@ -94,6 +97,7 @@ pub fn args() -> Vec<Arg> {
 pub fn exec(args: &ArgMatches<'_>) -> Result<()> {
     exporter(ExporterOptions {
         application: args.value_of("application"),
+        drawio_desktop_headless: args.is_present("drawio-desktop-headless"),
         folder: args.value_of("folder").unwrap(),
         on_filesystem_changes: args.is_present("on-changes"),
         on_git_changes_since_reference: args.value_of("git-reference"),
