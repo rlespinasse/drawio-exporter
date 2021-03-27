@@ -42,7 +42,7 @@ impl DrawioExporterCommand {
         let current_dir = match use_local_folder {
             true => {
                 let tempdir_base = Path::new("target/debug/tmp");
-                fs::create_dir_all(tempdir_base.clone())?;
+                fs::create_dir_all(tempdir_base)?;
 
                 let tempdir = tempdir_in(tempdir_base)?;
                 tempdir.into_path()

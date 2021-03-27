@@ -64,7 +64,7 @@ fn export_using_specific_path() -> Result<()> {
 fn export_using_unknown_path() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
 
-    let output = "Error: path must exists (as directory or file)";
+    let output = "Error: path must exist (as directory or file)";
 
     drawio_exporter
         .cmd
