@@ -43,7 +43,11 @@ impl<'a> DrawioDesktop<'a> {
             if !command_output.status.success()
                 || contains("Error: ").eval(command_output_string.as_str())
             {
-                anyhow::bail!("fail to export\n{:?}", command_output.stdout);
+                let stderr = match String::from_utf8(command_output.stderr) {
+                    Ok(output) => output,
+                    Err(err) => format!("unreadable output due to {}", err),
+                };
+                anyhow::bail!("fail to export using draw.io desktop\n{}", stderr.as_str());
             }
         }
         Ok(())
