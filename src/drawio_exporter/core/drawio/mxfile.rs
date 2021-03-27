@@ -2,10 +2,9 @@ use anyhow::{Context, Result};
 use flate2::read::DeflateDecoder;
 use regex::Regex;
 use serde::{Deserialize, Deserializer};
-use serde_xml_rs;
 use std::fs;
 use std::io::Read;
-use std::path::PathBuf;
+use std::path::Path;
 
 #[derive(Debug, Deserialize, PartialEq, Default, Clone)]
 pub struct MxCell {
@@ -28,16 +27,17 @@ impl MxCell {
         if let Ok(re) = Regex::new(".*href=\"(.*)\".*>(.*)<.*") {
             if let Some(caps) = re.captures(value.as_str()) {
                 let link_value = match caps.get(1) {
-                    Some(link) => Some(link.as_str().to_string().clone()),
+                    Some(link) => Some(link.as_str().to_string()),
                     None => None,
                 };
                 let link_text = match caps.get(2) {
-                    Some(link) => Some(link.as_str().to_string().clone()),
+                    Some(link) => Some(link.as_str().to_string()),
                     None => None,
                 };
 
-                if link_value.is_some() && link_text.is_some() {
-                    return Some((link_text.unwrap(), link_value.unwrap()));
+                match (link_value, link_text) {
+                    (Some(link), Some(text)) => return Some((link, text)),
+                    (_, _) => {}
                 }
             }
         }
@@ -115,17 +115,17 @@ pub struct MxfileWithCompressDiagrams {
     pub diagrams: Vec<CompressDiagram>,
 }
 
-pub fn read_file(path: &PathBuf) -> Result<Mxfile> {
+pub fn read_file(path: &Path) -> Result<Mxfile> {
     let content = fs::read_to_string(path)
         .with_context(|| format!("can read content of {}", path.display()))?;
     match content.is_empty() {
         true => Ok(Mxfile { diagrams: vec![] }),
         false => parse_compressed_content(path, content.clone())
-            .or(parse_uncompressed_content(path, content)),
+            .or_else(|_| parse_uncompressed_content(path, content)),
     }
 }
 
-fn parse_compressed_content(path: &PathBuf, content: String) -> Result<Mxfile> {
+fn parse_compressed_content(path: &Path, content: String) -> Result<Mxfile> {
     let mxfile_with_compressed_diagrams: MxfileWithCompressDiagrams =
         serde_xml_rs::from_reader(content.as_bytes())
             .with_context(|| format!("can parse xml on {}", path.display()))?;
@@ -157,7 +157,7 @@ fn decompress(mxfile_with_compressed_diagrams: MxfileWithCompressDiagrams) -> Re
     Ok(Mxfile { diagrams })
 }
 
-fn parse_uncompressed_content(path: &PathBuf, content: String) -> Result<Mxfile> {
+fn parse_uncompressed_content(path: &Path, content: String) -> Result<Mxfile> {
     let mxfile: Mxfile = serde_xml_rs::from_reader(content.as_bytes())
         .with_context(|| format!("can parse xml on {}", path.display()))?;
     Ok(mxfile)

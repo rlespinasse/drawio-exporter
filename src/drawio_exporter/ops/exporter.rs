@@ -10,7 +10,7 @@ use std::ffi::OsStr;
 use std::fs;
 use std::fs::File;
 use std::io::Write;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 pub struct ExporterOptions<'a> {
     pub application: Option<&'a str>,
@@ -35,7 +35,7 @@ pub struct ExporterOptions<'a> {
 pub fn exporter(options: ExporterOptions) -> Result<()> {
     let input_path = PathBuf::from(options.path);
     if !input_path.exists() {
-        return Err(anyhow!("path must exists (as directory or file)"));
+        return Err(anyhow!("path must exist (as directory or file)"));
     }
 
     let drawio_files = match options.on_git_changes_since_reference {
@@ -88,7 +88,8 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
                 .join(&output_filename);
 
             println!("+++ generate {} file", real_format);
-            &drawio_desktop.execute(ExportArguments {
+
+            drawio_desktop.execute(ExportArguments {
                 recursive: false,
                 output: output_path.to_str(),
                 input: path.to_str().unwrap(),
@@ -125,7 +126,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
 
 fn generate_adoc_file(
     options: &ExporterOptions,
-    path: &PathBuf,
+    path: &Path,
     diagram: &Diagram,
     file_stem: &OsStr,
     file_stem_suffix: String,
@@ -166,12 +167,12 @@ fn generate_adoc_file(
         println!("link '{}' : {}", text, link);
         // Since asciidoc consider '--' string as 'Em dash' string,
         // we need to protect it in order to be usable.
-        write!(file, "* {}[{}]\n", link.replace("--", "\\--"), text)?;
+        writeln!(file, "* {}[{}]", link.replace("--", "\\--"), text)?;
     }
     Ok(())
 }
 
-fn prepare_export_folders(folder: &str, drawio_files: &Vec<(PathBuf, Mxfile)>) -> Result<()> {
+fn prepare_export_folders(folder: &str, drawio_files: &[(PathBuf, Mxfile)]) -> Result<()> {
     let parent_paths: Vec<PathBuf> = drawio_files
         .iter()
         .map(|(path, _)| path.parent().unwrap().to_path_buf())

@@ -65,10 +65,8 @@ Caused by:
 #[test]
 fn export_using_option_git_ref_without_option_no_changes() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data(".", true)?;
-    let output = format!(
-        "error: The following required arguments were not provided:
-    --on-changes"
-    );
+    let output =
+        "error: The following required arguments were not provided:\n    --on-changes".to_string();
 
     drawio_exporter
         .cmd

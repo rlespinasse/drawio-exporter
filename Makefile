@@ -12,7 +12,7 @@ fmt:
 
 clippy:
 	@echo + $@
-	cargo clippy --all-features
+	cargo clippy --all-features --all-targets
 
 DEPS=
 deps:

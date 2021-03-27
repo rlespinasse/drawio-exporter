@@ -1,9 +1,9 @@
 use crate::core::drawio::mxfile::{read_file, Mxfile};
 use anyhow::{Context, Result};
 use git2::{DiffOptions, Object, ObjectType, Repository};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
-pub fn explore_path(path: &PathBuf, git_reference: &str) -> Result<Vec<(PathBuf, Mxfile)>> {
+pub fn explore_path(path: &Path, git_reference: &str) -> Result<Vec<(PathBuf, Mxfile)>> {
     let drawio_paths: Vec<PathBuf> = collect_files_from_git(path, git_reference)?;
 
     let mut files: Vec<(PathBuf, Mxfile)> = vec![];
@@ -13,7 +13,7 @@ pub fn explore_path(path: &PathBuf, git_reference: &str) -> Result<Vec<(PathBuf,
     Ok(files)
 }
 
-fn collect_files_from_git(root_path: &PathBuf, git_reference: &str) -> Result<Vec<PathBuf>> {
+fn collect_files_from_git(root_path: &Path, git_reference: &str) -> Result<Vec<PathBuf>> {
     let repo = Repository::discover(root_path)
         .with_context(|| format!("need to be a git repository {}", &root_path.display()))?;
     let mut opts = DiffOptions::new();

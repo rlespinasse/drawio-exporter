@@ -27,10 +27,7 @@ impl<'a> FilterOptions<'a> {
     }
 }
 
-pub fn explore_path(
-    path: &PathBuf,
-    filter_options: FilterOptions,
-) -> Result<Vec<(PathBuf, Mxfile)>> {
+pub fn explore_path(path: &Path, filter_options: FilterOptions) -> Result<Vec<(PathBuf, Mxfile)>> {
     let drawio_paths: Vec<PathBuf> = collect_files_from_filesystem(path);
 
     let mut files: Vec<(PathBuf, Mxfile)> = vec![];
@@ -69,7 +66,7 @@ fn only_keep_changed_drawio_files(
         .collect::<Vec<(PathBuf, Mxfile)>>()
 }
 
-fn is_drawio_file_has_been_updated(path: &PathBuf, export_folder: &str) -> bool {
+fn is_drawio_file_has_been_updated(path: &Path, export_folder: &str) -> bool {
     match get_modified_date(path) {
         None => true, // If we can't access a modified date, we consider its have been updated
         Some(drawio_file_modified_date) => {
@@ -79,7 +76,7 @@ fn is_drawio_file_has_been_updated(path: &PathBuf, export_folder: &str) -> bool 
 }
 
 fn is_drawio_file_older_than_exported_files(
-    path: &PathBuf,
+    path: &Path,
     modified_date: SystemTime,
     export_folder: &str,
 ) -> bool {
@@ -126,7 +123,7 @@ fn is_drawio_file_older_than_exported_files(
     exported_files_older_than_drawio_file_count > 0
 }
 
-fn get_modified_date(path: &PathBuf) -> Option<SystemTime> {
+fn get_modified_date(path: &Path) -> Option<SystemTime> {
     if let Ok(metadata) = fs::metadata(path) {
         if let Ok(modified_date) = metadata.modified() {
             return Some(modified_date);
