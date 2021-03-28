@@ -12,6 +12,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 * Add option to use Draw.io Desktop in headless mode
 
+### Changes
+
+* Updates default linux path used by Draw.io Desktop since v14.5.1
+
 ### Fixed
 
 * Remove file list output when using `--git-ref` option
