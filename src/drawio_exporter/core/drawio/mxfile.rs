@@ -12,31 +12,29 @@ pub struct MxCell {
 }
 
 impl MxCell {
-    pub fn value_as_link(&self) -> Option<(String, String)> {
+    pub fn get_link(&self) -> Option<(String, String)> {
         if let Some(value) = self.value.clone() {
             if value.contains("href=") {
-                return MxCell::extract_link_data(value);
+                return MxCell::extract_link(value);
             }
         }
         None
     }
 
-    fn extract_link_data(value: String) -> Option<(String, String)> {
-        // TODO Clean <.*> text
-        // TODO Clean &nbsp; or &amp;nbsp;
+    fn extract_link(value: String) -> Option<(String, String)> {
         if let Ok(re) = Regex::new(".*href=\"(.*)\".*>(.*)<.*") {
             if let Some(caps) = re.captures(value.as_str()) {
-                let link_value = match caps.get(1) {
+                let link_url = match caps.get(1) {
                     Some(link) => Some(link.as_str().to_string()),
                     None => None,
                 };
-                let link_text = match caps.get(2) {
+                let link_label = match caps.get(2) {
                     Some(link) => Some(link.as_str().to_string()),
                     None => None,
                 };
 
-                match (link_value, link_text) {
-                    (Some(link), Some(text)) => return Some((link, text)),
+                match (link_url, link_label) {
+                    (Some(url), Some(label)) => return Some((url, cleanup_label(label))),
                     (_, _) => {}
                 }
             }
@@ -45,9 +43,34 @@ impl MxCell {
     }
 }
 
+#[derive(Debug, Deserialize, PartialEq, Default, Clone)]
+pub struct UserObject {
+    pub label: Option<String>,
+    pub link: Option<String>,
+}
+
+impl UserObject {
+    pub fn get_link(&self) -> Option<(String, String)> {
+        if let Some(label) = self.label.clone() {
+            if let Some(url) = self.link.clone() {
+                return Some((url, cleanup_label(label)));
+            }
+        }
+        None
+    }
+}
+
+fn cleanup_label(text: String) -> String {
+    text.replace("<br>", " ")
+        .replace("<span>", "")
+        .replace("</span>", "")
+}
+
 #[derive(Debug, Deserialize, PartialEq, Clone)]
 pub enum Element {
+    #[serde(rename = "mxCell")]
     MxCell(MxCell),
+    UserObject(UserObject),
     #[serde(other, deserialize_with = "deserialize_ignore_any")]
     Other,
 }
@@ -84,11 +107,10 @@ impl Diagram {
             .elements
             .iter()
             .map(|element| match element {
-                Element::MxCell(cell) => Some(cell),
+                Element::MxCell(cell) => cell.get_link(),
+                Element::UserObject(user_object) => user_object.get_link(),
                 Element::Other => None,
             })
-            .filter(|cell| cell.is_some())
-            .map(|cell| cell.unwrap().value_as_link())
             .filter(|link| link.is_some())
             .map(|link| link.unwrap())
             .collect()
