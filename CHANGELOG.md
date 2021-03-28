@@ -27,6 +27,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Remove file list output when using `--git-ref` option
 * Improve changes filtering using `--git-ref` option
 * Prevent PATH arg to be empty, fallback to current directory if needed
+* Process page index correctly
 
 ## [1.0.0] - 2021-03-24
 
