@@ -17,6 +17,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Support Draw.io Desktop v14.5.1
   * --embed-diagram is now supported for PDF format
 * Updates default linux path used by Draw.io Desktop since v14.5.1
+* Support more link extraction types upon mxfile format
+  * link attach to a shape
+  * link label on multiple lines
 
 ### Fixed
 

@@ -150,7 +150,11 @@ fn generate_adoc_file(
     let mut file = File::create(&adoc_path)?;
     write!(
         file,
-        "= {} {}\n\nimage::{}[{}]\n\n",
+        "= {} {}
+
+image::{}[{}]
+
+",
         file_stem.to_str().unwrap(),
         diagram.name,
         output_filename,
@@ -158,23 +162,32 @@ fn generate_adoc_file(
     )?;
 
     println!("+++ include links in adoc file");
-    for (text, link) in diagram.get_links() {
-        if text.is_empty() {
-            println!("WARNING: text link is empty");
+    for (link, label) in diagram.get_links() {
+        if label.is_empty() {
+            println!(
+                "warn: link not included, due to missing label: link '[missing]' to {}",
+                link
+            );
             continue;
         }
         if link.is_empty() {
-            println!("WARNING: link is empty");
+            println!(
+                "warn: link not included, due to missing url: link '{}' to [missing]",
+                label
+            );
             continue;
         }
         if link.starts_with("data:page/id") {
-            println!("WARNING: link between pages is not currently supported");
+            println!(
+                "warn: link not included, page link isn't supported, link '{}' to {}",
+                label, link
+            );
             continue;
         }
-        println!("link '{}' : {}", text, link);
+        println!("link '{}' to {}", label, link);
         // Since asciidoc consider '--' string as 'Em dash' string,
         // we need to protect it in order to be usable.
-        writeln!(file, "* {}[{}]", link.replace("--", "\\--"), text)?;
+        writeln!(file, "* {}[{}]", link.replace("--", "\\--"), label)?;
     }
     Ok(())
 }

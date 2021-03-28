@@ -10,7 +10,6 @@ use std::time::Duration;
 fn export_only_changed_files() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("tree", false)?;
 
-    println!("Initialization");
     let output_first_run = "+ export file : tree/folder2/folder3/file3.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file
@@ -40,7 +39,6 @@ fn export_only_changed_files() -> Result<()> {
         .stdout(contains(output_first_run));
 
     // Update output file to simulate an older generated file
-    println!("Simulate older exported files");
     // All exported files of tree/file1.drawio are older
     change_file_mtime(
         &drawio_exporter.current_dir,
@@ -62,7 +60,6 @@ fn export_only_changed_files() -> Result<()> {
         7200,
     )?;
 
-    println!("Run with --on-changes");
     let output_second_run = "+ export file : tree/file1.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file
