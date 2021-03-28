@@ -10,12 +10,7 @@ use std::time::Duration;
 fn export_only_changed_files() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("tree", false)?;
 
-    let output_first_run = "+ export file : tree/folder2/folder3/file3.drawio
-++ export page 1 : Page-1
-+++ generate pdf file
-++ export page 2 : Page 2
-+++ generate pdf file
-+ export file : tree/file1.drawio
+    let output_first_run = "+ export file : tree/file1.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file
 ++ export page 2 : Page 2
@@ -26,6 +21,11 @@ fn export_only_changed_files() -> Result<()> {
 ++ export page 2 : Page 2
 +++ generate pdf file
 + export file : tree/folder1/file2.2.drawio
+++ export page 1 : Page-1
++++ generate pdf file
+++ export page 2 : Page 2
++++ generate pdf file
++ export file : tree/folder2/folder3/file3.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file
 ++ export page 2 : Page 2

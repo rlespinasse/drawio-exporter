@@ -10,6 +10,9 @@ pub fn explore_path(path: &Path, git_reference: &str) -> Result<Vec<(PathBuf, Mx
     for drawio_path in drawio_paths {
         files.push((drawio_path.clone(), read_file(&drawio_path)?))
     }
+
+    files.sort_by(|(a, _), (b, _)| a.cmp(b));
+
     Ok(files)
 }
 

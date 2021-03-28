@@ -21,10 +21,10 @@ fn export_nothing() -> Result<()> {
 fn export_files_with_a_name_collision() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("name_collision", true)?;
 
-    let output = "+ export file : name_collision/name.drawio
+    let output = "+ export file : name_collision/name-collision.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file
-+ export file : name_collision/name-collision.drawio
++ export file : name_collision/name.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file";
 
@@ -42,12 +42,7 @@ fn export_files_with_a_name_collision() -> Result<()> {
 fn export_files_from_a_folders_tree() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("tree", true)?;
 
-    let output = "+ export file : tree/folder2/folder3/file3.drawio
-++ export page 1 : Page-1
-+++ generate pdf file
-++ export page 2 : Page 2
-+++ generate pdf file
-+ export file : tree/file1.drawio
+    let output = "+ export file : tree/file1.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file
 ++ export page 2 : Page 2
@@ -58,6 +53,11 @@ fn export_files_from_a_folders_tree() -> Result<()> {
 ++ export page 2 : Page 2
 +++ generate pdf file
 + export file : tree/folder1/file2.2.drawio
+++ export page 1 : Page-1
++++ generate pdf file
+++ export page 2 : Page 2
++++ generate pdf file
++ export file : tree/folder2/folder3/file3.drawio
 ++ export page 1 : Page-1
 +++ generate pdf file
 ++ export page 2 : Page 2
