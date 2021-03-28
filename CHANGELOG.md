@@ -20,6 +20,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 * Support more link extraction types upon mxfile format
   * link attach to a shape
   * link label on multiple lines
+* Process the drawio files in the same order across OS
 
 ### Fixed
 

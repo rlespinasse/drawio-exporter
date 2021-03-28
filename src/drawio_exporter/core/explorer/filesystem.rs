@@ -35,6 +35,8 @@ pub fn explore_path(path: &Path, filter_options: FilterOptions) -> Result<Vec<(P
         files.push((drawio_path.clone(), read_file(&drawio_path)?))
     }
 
+    files.sort_by(|(a, _), (b, _)| a.cmp(b));
+
     match filter_options.on_changes {
         true => Ok(only_keep_changed_drawio_files(files, filter_options.folder)),
         false => Ok(files),
