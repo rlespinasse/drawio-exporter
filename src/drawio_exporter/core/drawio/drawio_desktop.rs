@@ -54,7 +54,7 @@ fn default_application_os<'a>() -> Option<&'a str> {
     let application_path = match std::env::consts::OS {
         "macos" => Some("/Applications/draw.io.app/Contents/MacOS/draw.io"),
         "windows" => Some("C:\\Program Files\\draw.io\\draw.io.exe"),
-        "linux" => Some("/opt/draw.io/drawio"),
+        "linux" => Some("/opt/drawio/drawio"),
         _ => None,
     };
     if let Some(path) = application_path {
