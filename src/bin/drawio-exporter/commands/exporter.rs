@@ -71,8 +71,8 @@ pub fn args() -> Vec<Arg> {
             .help("crops PDF to diagram size")
             .long("crop"),
         // Drawio Desktop cli options for PNG format
-        arg("drawio-cli-png-embed-diagram")
-            .help("Includes a copy of the diagram")
+        arg("drawio-cli-pdf-png-embed-diagram")
+            .help("Includes a copy of the diagram for PNG or PDF")
             .short("e")
             .long("embed-diagram"),
         arg("drawio-cli-png-transparent")
@@ -109,7 +109,7 @@ pub fn exec(args: &ArgMatches<'_>) -> Result<()> {
         width: args.value_of("drawio-cli-pdf-width"),
         height: args.value_of("drawio-cli-pdf-height"),
         crop: args.is_present("drawio-cli-pdf-crop"),
-        embed_diagram: args.is_present("drawio-cli-png-embed-diagram"),
+        embed_diagram: args.is_present("drawio-cli-pdf-png-embed-diagram"),
         transparent: args.is_present("drawio-cli-png-transparent"),
         quality: args.value_of("drawio-cli-jpg-quality").unwrap(),
         uncompressed: args.is_present("drawio-cli-xml-uncompressed"),
