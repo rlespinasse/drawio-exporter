@@ -68,7 +68,8 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
         println!("+ export file : {}", drawio_file_path);
         let with_page_suffix = !(options.remove_page_suffix && mxfile.diagrams.len() == 1);
         for (position, diagram) in mxfile.diagrams.iter().enumerate() {
-            println!("++ export page {} : {}", position + 1, diagram.name);
+            let position_to_display = position + 1;
+            println!("++ export page {} : {}", position_to_display, diagram.name);
 
             let file_stem = path.file_stem().unwrap();
             let file_stem_suffix = match with_page_suffix {
@@ -111,7 +112,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
                 quality: options.quality,
                 uncompressed: options.uncompressed,
                 all_pages: false,
-                page_index: Some((position + 1).to_string().as_str()),
+                page_index: Some(position.to_string().as_str()),
                 page_range: None,
             })?;
 
