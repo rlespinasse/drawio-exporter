@@ -50,6 +50,11 @@ cargo build --release
 # put the resulting `target/release/drawio-exporter` executable on your PATH.
 ----
 
+== Used by
+
+* Docker image https://github.com/rlespinasse/drawio-export[**rlespinasse/drawio-export**] which use the export capabilities of this tool,
+** And GitHub Action https://github.com/rlespinasse/drawio-export-action[**rlespinasse/drawio-export-action**] which is build on top of **drawio-export** docker image.
+
 == Contributing
 
 Pull requests are welcome.
