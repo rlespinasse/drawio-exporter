@@ -12,7 +12,7 @@ jobs:
       - name: Preflight // Test
         run: |
           sudo apt-get install -y xvfb libappindicator3-1
-          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v14.5.1/drawio-amd64-14.6.13.deb
+          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v14.6.13/drawio-amd64-14.6.13.deb
           sudo dpkg -i drawio-amd64-14.6.13.deb
           sudo apt-get -y -f install
 
