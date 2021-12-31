@@ -9,11 +9,12 @@ on:
       - "**/Cargo.lock"
 
 jobs:
-  security_audit:
+  security-audit:
     runs-on: ubuntu-latest
+    concurrency:
+      group: security-audit-${{ github.ref }}-${{ github.event_name }}
+      cancel-in-progress: true
     steps:
-      - uses: technote-space/auto-cancel-redundant-workflow@v1
-
       - name: Checkout
         uses: actions/checkout@v2
 

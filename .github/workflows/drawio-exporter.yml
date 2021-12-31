@@ -1,19 +1,17 @@
-name: Continuous integration
+name: Build
 
 on: push
 
 jobs:
-  ci:
+  build:
     runs-on: ubuntu-latest
-
+    concurrency:
+      group: build-${{ github.ref }}-${{ github.event_name }}
+      cancel-in-progress: true
     steps:
-      - uses: technote-space/auto-cancel-redundant-workflow@v1
-
       - name: Preflight // Test
         run: |
           sudo apt-get install -y xvfb libappindicator3-1
-          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v15.4.0/drawio-amd64-15.4.0.deb
-          sudo dpkg -i drawio-amd64-15.4.0.deb
           sudo apt-get -y -f install
 
       - name: Checkout
