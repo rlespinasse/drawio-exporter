@@ -61,9 +61,24 @@ impl UserObject {
 }
 
 fn cleanup_label(text: String) -> String {
-    text.replace("<br>", " ")
-        .replace("<span>", "")
-        .replace("</span>", "")
+    let raw_label = text
+        .replace("&nbsp;", " ")
+        .replace("<br>", " ")
+        .replace("<b>", " ")
+        .replace("</b>", " ")
+        .replace("<u>", " ")
+        .replace("</u>", " ")
+        .replace("<i>", " ")
+        .replace("</i>", " ")
+        .replace("<strike>", " ")
+        .replace("</strike>", " ")
+        .replace("<span>", " ")
+        .replace("</span>", " ");
+    let trimmed_label = raw_label.as_str().trim();
+    let remove_multiple_whitespaces = Regex::new(r"\s+").unwrap();
+    remove_multiple_whitespaces
+        .replace_all(trimmed_label, " ")
+        .into_owned()
 }
 
 #[derive(Debug, Deserialize, PartialEq, Clone)]
