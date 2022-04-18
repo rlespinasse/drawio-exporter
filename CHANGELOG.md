@@ -7,6 +7,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Added
+
+* Cleanup link label from any non-breaking space, bold, italic, underline, or strikethrough during asciidoc export
+
+### Changes
+
+* Remove any extra whitespace on link label during asciidoc export
+
 ## [1.1.0] - 2021-03-29
 
 ### Added
