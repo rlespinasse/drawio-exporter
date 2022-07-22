@@ -16,6 +16,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 * Remove any extra whitespace on link label during asciidoc export
 
+### Fixed
+
+* Do not export deleted files when using `--git-ref` option
+
 ## [1.1.0] - 2021-03-29
 
 ### Added
