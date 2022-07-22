@@ -44,6 +44,7 @@ fn collect_files_from_git(root_path: &Path, git_reference: &str) -> Result<Vec<P
             Some(ext) => ext.eq("drawio"),
             None => false,
         })
+        .filter(|path| path.exists())
         .filter(|path| {
             path.canonicalize()
                 .unwrap()
