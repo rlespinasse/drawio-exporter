@@ -18,7 +18,7 @@ pub fn args() -> Vec<Arg> {
         arg("format")
             .help("Exported format")
             .value_name("format")
-            .possible_values(&["adoc", "jpg", "pdf", "png", "svg", "vsdx", "xml"])
+            .possible_values(&["adoc", "md", "jpg", "pdf", "png", "svg", "vsdx", "xml"])
             .default_value("pdf")
             .short("f")
             .long("format"),
