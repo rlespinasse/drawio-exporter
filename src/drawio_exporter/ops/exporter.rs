@@ -23,6 +23,7 @@ pub struct ExporterOptions<'a> {
     pub format: &'a str,
     pub border: &'a str,
     pub scale: Option<&'a str>,
+    pub enable_plugins: bool,
     pub width: Option<&'a str>,
     pub height: Option<&'a str>,
     pub crop: bool,
@@ -116,6 +117,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
                 page_index: Some(position.to_string().as_str()),
                 page_range: None,
                 embed_svg_images: options.embed_svg_images,
+                enable_plugins: options.enable_plugins,
             })?;
 
             if options.format.eq("adoc") {

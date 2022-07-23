@@ -88,6 +88,7 @@ pub struct ExportArguments<'a> {
     pub page_index: Option<&'a str>,
     pub page_range: Option<&'a str>,
     pub embed_svg_images: bool,
+    pub enable_plugins: bool,
 }
 
 impl<'a> ExportArguments<'a> {
@@ -160,6 +161,10 @@ impl<'a> ExportArguments<'a> {
 
         if self.embed_svg_images {
             arguments.push("--embed-svg-images");
+        }
+
+        if self.enable_plugins {
+            arguments.push("--enable-plugins");
         }
 
         // Input is always the last argument
