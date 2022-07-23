@@ -58,6 +58,9 @@ pub fn args() -> Vec<Arg> {
             .value_name("scale")
             .short("s")
             .long("scale"),
+        arg("drawio-cli-enable-plugins")
+            .help("Enable Plugins")
+            .long("enable-plugins"),
         // Drawio Desktop cli options for PDF format
         arg("drawio-cli-pdf-width")
             .help("Fits the generated image/pdf into the specified width, preserves aspect ratio")
@@ -111,6 +114,7 @@ pub fn exec(args: &ArgMatches<'_>) -> Result<()> {
         format: args.value_of("format").unwrap(),
         border: args.value_of("drawio-cli-border").unwrap(),
         scale: args.value_of("drawio-cli-scale"),
+        enable_plugins: args.is_present("drawio-cli-enable-plugins"),
         width: args.value_of("drawio-cli-pdf-width"),
         height: args.value_of("drawio-cli-pdf-height"),
         crop: args.is_present("drawio-cli-pdf-crop"),
