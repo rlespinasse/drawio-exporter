@@ -26,10 +26,11 @@ pub struct ExporterOptions<'a> {
     pub width: Option<&'a str>,
     pub height: Option<&'a str>,
     pub crop: bool,
-    pub embed_diagram: bool,
     pub transparent: bool,
     pub quality: &'a str,
     pub uncompressed: bool,
+    pub embed_svg_images: bool,
+    pub embed_diagram: bool,
 }
 
 pub fn exporter(options: ExporterOptions) -> Result<()> {
@@ -114,6 +115,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
                 all_pages: false,
                 page_index: Some(position.to_string().as_str()),
                 page_range: None,
+                embed_svg_images: options.embed_svg_images,
             })?;
 
             if options.format.eq("adoc") {
