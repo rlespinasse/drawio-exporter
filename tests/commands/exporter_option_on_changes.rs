@@ -3,7 +3,7 @@ use anyhow::Result;
 use assert_cmd::prelude::*;
 use filetime::FileTime;
 use predicates::prelude::predicate::str::contains;
-use std::path::PathBuf;
+use std::path::Path;
 use std::time::Duration;
 
 #[test]
@@ -84,7 +84,7 @@ fn export_only_changed_files() -> Result<()> {
 }
 
 fn change_file_mtime(
-    base_path: &PathBuf,
+    base_path: &Path,
     path_to_change: &str,
     based_on: &str,
     duration: u64,
