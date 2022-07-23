@@ -24,18 +24,11 @@ impl MxCell {
     fn extract_link(value: String) -> Option<(String, String)> {
         if let Ok(re) = Regex::new(".*href=\"(.*)\".*>(.*)<.*") {
             if let Some(caps) = re.captures(value.as_str()) {
-                let link_url = match caps.get(1) {
-                    Some(link) => Some(link.as_str().to_string()),
-                    None => None,
-                };
-                let link_label = match caps.get(2) {
-                    Some(link) => Some(link.as_str().to_string()),
-                    None => None,
-                };
+                let link_url = caps.get(1).map(|link| link.as_str().to_string());
+                let link_label = caps.get(2).map(|link| link.as_str().to_string());
 
-                match (link_url, link_label) {
-                    (Some(url), Some(label)) => return Some((url, cleanup_label(label))),
-                    (_, _) => {}
+                if let (Some(url), Some(label)) = (link_url, link_label) {
+                    return Some((url, cleanup_label(label)));
                 }
             }
         }
@@ -121,13 +114,11 @@ impl Diagram {
             .root
             .elements
             .iter()
-            .map(|element| match element {
+            .filter_map(|element| match element {
                 Element::MxCell(cell) => cell.get_link(),
                 Element::UserObject(user_object) => user_object.get_link(),
                 Element::Other => None,
             })
-            .filter(|link| link.is_some())
-            .map(|link| link.unwrap())
             .collect()
     }
 }
