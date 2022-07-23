@@ -83,6 +83,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
             };
             let real_format = match options.format {
                 "adoc" => "png",
+                "md" => "png",
                 _ => options.format,
             };
             let output_filename = format!(
@@ -120,8 +121,8 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
                 enable_plugins: options.enable_plugins,
             })?;
 
-            if options.format.eq("adoc") {
-                generate_adoc_file(
+            if options.format.eq("adoc") || options.format.eq("md") {
+                generate_formatted_text_file(
                     &options,
                     &path,
                     diagram,
@@ -136,7 +137,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
     Ok(())
 }
 
-fn generate_adoc_file(
+fn generate_formatted_text_file(
     options: &ExporterOptions,
     path: &Path,
     diagram: &Diagram,
@@ -144,29 +145,49 @@ fn generate_adoc_file(
     file_stem_suffix: String,
     output_filename: String,
 ) -> Result<()> {
-    println!("+++ generate adoc file");
-    let adoc_filename = format!("{}{}.adoc", file_stem.to_str().unwrap(), file_stem_suffix);
-    let adoc_path = path
+    println!("+++ generate {} file", options.format);
+    let formatted_text_filename = format!(
+        "{}{}.{}",
+        file_stem.to_str().unwrap(),
+        file_stem_suffix,
+        options.format
+    );
+    let formatted_text_path = path
         .parent()
         .unwrap()
         .join(options.folder)
-        .join(adoc_filename);
+        .join(formatted_text_filename);
 
-    let mut file = File::create(&adoc_path)?;
-    write!(
-        file,
-        "= {} {}
+    let mut file = File::create(&formatted_text_path)?;
+    if options.format.eq("adoc") {
+        write!(
+            file,
+            "= {} {}
 
 image::{}[{}]
 
 ",
-        file_stem.to_str().unwrap(),
-        diagram.name,
-        output_filename,
-        diagram.name
-    )?;
+            file_stem.to_str().unwrap(),
+            diagram.name,
+            output_filename,
+            diagram.name
+        )?;
+    } else if options.format.eq("md") {
+        write!(
+            file,
+            "# {} {}
 
-    println!("+++ include links in adoc file");
+![{}][{}]
+
+",
+            file_stem.to_str().unwrap(),
+            diagram.name,
+            diagram.name,
+            output_filename,
+        )?;
+    }
+
+    println!("+++ include links in {} file", options.format);
     for (link, label) in diagram.get_links() {
         if label.is_empty() {
             println!(
@@ -190,9 +211,14 @@ image::{}[{}]
             continue;
         }
         println!("link '{}' to {}", label, link);
-        // Since asciidoc consider '--' string as 'Em dash' string,
-        // we need to protect it in order to be usable.
-        writeln!(file, "* {}[{}]", link.replace("--", "\\--"), label)?;
+
+        if options.format.eq("adoc") {
+            // Since asciidoc consider '--' string as 'Em dash' string,
+            // we need to protect it in order to be usable.
+            writeln!(file, "* {}[{}]", link.replace("--", "\\--"), label)?;
+        } else if options.format.eq("md") {
+            writeln!(file, "* [{}]({})", label, link)?;
+        }
     }
     Ok(())
 }

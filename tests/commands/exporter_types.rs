@@ -50,6 +50,32 @@ fn export_adoc_format() -> Result<()> {
 }
 
 #[test]
+fn export_md_format() -> Result<()> {
+    let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
+
+    let output = "+ export file : types/nominal.drawio
+++ export page 1 : Page-1
++++ generate png file
++++ generate md file
++++ include links in md file
+++ export page 2 : Page 2
++++ generate png file
++++ generate md file
++++ include links in md file";
+
+    drawio_exporter
+        .cmd
+        .arg("--format")
+        .arg("md")
+        .arg(&drawio_exporter.current_dir)
+        .assert()
+        .success()
+        .stdout(contains(output));
+
+    Ok(())
+}
+
+#[test]
 fn export_pdf_format() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
 

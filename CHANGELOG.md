@@ -11,6 +11,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 * Cleanup link label from any non-breaking space, bold, italic, underline, or strikethrough during asciidoc export
+* Support markdown as an export format
+  * also extract links from diagram
 
 ### Changes
 
