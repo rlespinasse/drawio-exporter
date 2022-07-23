@@ -11,10 +11,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 
 * Cleanup link label from any non-breaking space, bold, italic, underline, or strikethrough during asciidoc export
+* Support Draw.io Desktop v19.0.3
+    * --enable-plugins is available
 
 ### Changes
 
 * Remove any extra whitespace on link label during asciidoc export
+* Support Draw.io Desktop v16.1.2
+  * --embed-diagram is now supported for SVG format
+  * --embed-svg-images is available for SVG format
 
 ### Fixed
 

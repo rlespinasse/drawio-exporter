@@ -71,10 +71,6 @@ pub fn args() -> Vec<Arg> {
             .help("crops PDF to diagram size")
             .long("crop"),
         // Drawio Desktop cli options for PNG format
-        arg("drawio-cli-pdf-png-embed-diagram")
-            .help("Includes a copy of the diagram for PNG or PDF")
-            .short("e")
-            .long("embed-diagram"),
         arg("drawio-cli-png-transparent")
             .help("Set transparent background for PNG")
             .short("t")
@@ -91,6 +87,15 @@ pub fn args() -> Vec<Arg> {
             .help("Uncompressed XML output")
             .short("u")
             .long("uncompressed"),
+        // Drawio Desktop cli options for SVG format
+        arg("drawio-cli-svg-embed-svg-images")
+            .help("Embed Images in SVG file")
+            .long("embed-svg-images"),
+        // Drawio Desktop cli options for multiple formats
+        arg("drawio-cli-pdf-png-svg-embed-diagram")
+            .help("Includes a copy of the diagram for PDF, PNG, or SVG")
+            .short("e")
+            .long("embed-diagram"),
     ]
 }
 
@@ -109,9 +114,10 @@ pub fn exec(args: &ArgMatches<'_>) -> Result<()> {
         width: args.value_of("drawio-cli-pdf-width"),
         height: args.value_of("drawio-cli-pdf-height"),
         crop: args.is_present("drawio-cli-pdf-crop"),
-        embed_diagram: args.is_present("drawio-cli-pdf-png-embed-diagram"),
         transparent: args.is_present("drawio-cli-png-transparent"),
         quality: args.value_of("drawio-cli-jpg-quality").unwrap(),
         uncompressed: args.is_present("drawio-cli-xml-uncompressed"),
+        embed_svg_images: args.is_present("drawio-cli-svg-embed-svg-images"),
+        embed_diagram: args.is_present("drawio-cli-pdf-png-svg-embed-diagram"),
     })
 }
