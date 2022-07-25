@@ -7,6 +7,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [1.2.0] - 2022-07-25
 
 ### Added
 
@@ -63,7 +64,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   * from a git repository reference (like commit id)
 
 <!-- next-url -->
-[Unreleased]: https://github.com/rlespinasse/wints/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/rlespinasse/wints/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/rlespinasse/wints/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/rlespinasse/wints/compare/v1.0.0...v1.1.0
 
 [1.0.0]: https://github.com/rlespinasse/drawio-exported/compare/cb9aec8...v1.0.0
