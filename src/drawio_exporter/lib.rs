@@ -4,4 +4,3 @@ extern crate serde_xml_rs;
 
 pub mod core;
 pub mod ops;
-pub mod util;

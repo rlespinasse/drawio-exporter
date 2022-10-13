@@ -13,22 +13,22 @@ use std::io::Write;
 use std::path::{Path, PathBuf};
 
 pub struct ExporterOptions<'a> {
-    pub application: Option<&'a str>,
+    pub application: &'a String,
     pub drawio_desktop_headless: bool,
-    pub folder: &'a str,
+    pub folder: &'a String,
     pub on_filesystem_changes: bool,
-    pub on_git_changes_since_reference: Option<&'a str>,
+    pub on_git_changes_since_reference: Option<&'a String>,
     pub remove_page_suffix: bool,
     pub path: &'a str,
-    pub format: &'a str,
-    pub border: &'a str,
-    pub scale: Option<&'a str>,
+    pub format: &'a String,
+    pub border: &'a String,
+    pub scale: Option<&'a String>,
     pub enable_plugins: bool,
-    pub width: Option<&'a str>,
-    pub height: Option<&'a str>,
+    pub width: Option<&'a String>,
+    pub height: Option<&'a String>,
     pub crop: bool,
     pub transparent: bool,
-    pub quality: &'a str,
+    pub quality: &'a String,
     pub uncompressed: bool,
     pub embed_svg_images: bool,
     pub embed_diagram: bool,
@@ -81,10 +81,10 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
                 }
                 false => "".to_string(),
             };
-            let real_format = match options.format {
+            let real_format = match options.format.as_str() {
                 "adoc" => "png",
                 "md" => "png",
-                _ => options.format,
+                _ => options.format.as_str(),
             };
             let output_filename = format!(
                 "{}{}.{}",
@@ -115,7 +115,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
                 quality: options.quality,
                 uncompressed: options.uncompressed,
                 all_pages: false,
-                page_index: Some(position.to_string().as_str()),
+                page_index: Some(&position.to_string()),
                 page_range: None,
                 embed_svg_images: options.embed_svg_images,
                 enable_plugins: options.enable_plugins,

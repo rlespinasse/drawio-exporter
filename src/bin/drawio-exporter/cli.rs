@@ -1,7 +1,5 @@
 use anyhow::Result;
-use clap::AppSettings;
-
-use drawio_exporter::util::command_prelude::*;
+use clap::Command;
 
 use crate::commands;
 use crate::commands::global_exec;
@@ -12,16 +10,15 @@ pub fn main() -> Result<()> {
     command_exec(&matches)
 }
 
-fn cli() -> App {
-    let args = commands::global_args();
-
-    App::new("drawio-exporter")
+fn cli() -> Command {
+    let mut command = Command::new("drawio-exporter")
         .about("Command Line Client To Enhance Files Export Using Draw.io Application")
         .version(crate_version!())
-        .settings(&[
-            AppSettings::UnifiedHelpMessage,
-            AppSettings::DeriveDisplayOrder,
-            AppSettings::ColoredHelp,
-        ])
-        .args(args.as_ref())
+        .long_version(crate_version!());
+
+    for arg in commands::global_args() {
+        command = command.arg(arg);
+    }
+
+    command
 }
