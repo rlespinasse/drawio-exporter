@@ -1,4 +1,4 @@
-use anyhow::{Context, Result};
+use anyhow::{anyhow, Context, Result};
 use predicate::str::contains;
 use predicates::prelude::*;
 use std::path::PathBuf;
@@ -10,10 +10,14 @@ pub struct DrawioDesktop<'a> {
 }
 
 impl<'a> DrawioDesktop<'a> {
-    pub fn new(application_path: Option<&'a str>, is_headless: bool) -> Result<DrawioDesktop> {
-        let application = application_path
-            .or_else(default_application_os)
-            .with_context(|| "missing draw.io desktop application path")?;
+    pub fn new(application: &String, is_headless: bool) -> Result<DrawioDesktop> {
+        if !PathBuf::from(application).exists() {
+            return Err(anyhow!(format!(
+                "Draw.io Desktop application path '{}' don't exists",
+                application
+            )));
+        }
+
         Ok(DrawioDesktop {
             application,
             is_headless,
@@ -54,20 +58,13 @@ impl<'a> DrawioDesktop<'a> {
     }
 }
 
-fn default_application_os<'a>() -> Option<&'a str> {
-    let application_path = match std::env::consts::OS {
-        "macos" => Some("/Applications/draw.io.app/Contents/MacOS/draw.io"),
-        "windows" => Some("C:\\Program Files\\draw.io\\draw.io.exe"),
-        "linux" => Some("/opt/drawio/drawio"),
-        _ => None,
-    };
-    if let Some(path) = application_path {
-        if !PathBuf::from(path).exists() {
-            println!("Draw.io Desktop default path '{}' don't exists", path);
-            return None;
-        }
+pub fn os_default_application<'a>() -> &'a str {
+    match std::env::consts::OS {
+        "macos" => "/Applications/draw.io.app/Contents/MacOS/draw.io",
+        "windows" => "C:\\Program Files\\draw.io\\draw.io.exe",
+        "linux" => "/opt/drawio/drawio",
+        _ => "",
     }
-    application_path
 }
 
 pub struct ExportArguments<'a> {
@@ -75,18 +72,18 @@ pub struct ExportArguments<'a> {
     pub output: Option<&'a str>,
     pub input: &'a str,
     pub format: &'a str,
-    pub border: &'a str,
-    pub scale: Option<&'a str>,
-    pub width: Option<&'a str>,
-    pub height: Option<&'a str>,
+    pub border: &'a String,
+    pub scale: Option<&'a String>,
+    pub width: Option<&'a String>,
+    pub height: Option<&'a String>,
     pub crop: bool,
     pub embed_diagram: bool,
     pub transparent: bool,
-    pub quality: &'a str,
+    pub quality: &'a String,
     pub uncompressed: bool,
     pub all_pages: bool,
-    pub page_index: Option<&'a str>,
-    pub page_range: Option<&'a str>,
+    pub page_index: Option<&'a String>,
+    pub page_range: Option<&'a String>,
     pub embed_svg_images: bool,
     pub enable_plugins: bool,
 }

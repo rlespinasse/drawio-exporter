@@ -1,7 +1,5 @@
 use anyhow::Result;
-use clap::ArgMatches;
-
-use drawio_exporter::util::command_prelude::*;
+use clap::{Arg, ArgMatches};
 
 mod exporter;
 
@@ -9,6 +7,6 @@ pub fn global_args() -> Vec<Arg> {
     exporter::args()
 }
 
-pub fn global_exec() -> fn(&ArgMatches<'_>) -> Result<()> {
+pub fn global_exec() -> fn(&ArgMatches) -> Result<()> {
     exporter::exec
 }

@@ -66,7 +66,7 @@ Caused by:
 fn export_using_option_git_ref_without_option_no_changes() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data(".", true)?;
     let output =
-        "error: The following required arguments were not provided:\n    --on-changes".to_string();
+        "error: The following required arguments were not provided:\n  --on-changes\n\nUsage: drawio-exporter --on-changes --git-ref <reference> <PATH>\n\nFor more information try \'--help\'\n".to_string();
 
     drawio_exporter
         .cmd
