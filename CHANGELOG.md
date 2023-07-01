@@ -10,7 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
-* Cleanup forbidden caracters from Page suffix
+* Cleanup forbidden characters from Page suffix
 
 ## [1.2.0] - 2022-07-25
 
