@@ -11,9 +11,9 @@ jobs:
     steps:
       - name: Preflight // Test
         run: |
-          sudo apt-get install -y xvfb libappindicator3-1
-          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v19.0.3/drawio-amd64-19.0.3.deb
-          sudo dpkg -i drawio-amd64-19.0.3.deb
+          sudo apt-get install -y xvfb libappindicator3-1 libnotify4
+          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v21.5.1/drawio-amd64-21.5.1.deb
+          sudo dpkg -i drawio-amd64-21.5.1.deb
           sudo apt-get -y -f install
 
       - name: Checkout
