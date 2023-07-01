@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Fixed
+
+* Cleanup forbidden caracters from Page suffix
+
 ## [1.2.0] - 2022-07-25
 
 ### Added

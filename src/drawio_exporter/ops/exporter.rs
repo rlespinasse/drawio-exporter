@@ -76,7 +76,17 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
             let file_stem = path.file_stem().unwrap();
             let file_stem_suffix = match with_page_suffix {
                 true => {
-                    let page_suffix = diagram.name.replace(' ', "-");
+                    let page_suffix = diagram.name
+                        .replace(' ', "-")
+                        .replace('<', "-")
+                        .replace('>', "-")
+                        .replace(':', "-")
+                        .replace('"', "-")
+                        .replace('/', "-")
+                        .replace('\\', "-")
+                        .replace('|', "-")
+                        .replace('?', "-")
+                        .replace('*', "-")
                     format!("-{}", page_suffix)
                 }
                 false => "".to_string(),

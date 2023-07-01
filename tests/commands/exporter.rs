@@ -152,3 +152,21 @@ fn export_file_from_vscode() -> Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn export_file_with_page_name_using_forbidden_caracters() -> Result<()> {
+    let mut drawio_exporter = DrawioExporterCommand::new_using_data("page_naming", true)?;
+
+    let output = "+ export file : page_naming/forbidden-page-name.drawio
+++ export page 1 : Page----------
++++ generate pdf file";
+
+    drawio_exporter
+        .cmd
+        .arg(&drawio_exporter.current_dir)
+        .assert()
+        .success()
+        .stdout(contains(output));
+
+    Ok(())
+}
