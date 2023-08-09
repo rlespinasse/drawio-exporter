@@ -1,0 +1,380 @@
+<mxfile host="65bd71144e" pages="2">
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page#pound">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page%percent">
+        <mxGraphModel dx="1192" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page&amp;ampersand">
+        <mxGraphModel dx="1192" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page{left-curly-bracket">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page}right-curly-bracket">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page\back-slash">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page&lt;left-angle-bracket">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page&gt;right-angle-bracket">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page*asterisk">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page?question-mark">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page/forward-slash">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page$dollar-sign">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page!exclamation-point">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page'single-quotes">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page&quot;double-quotes">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page:colon">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page@at-sign">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page+plus-sign">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page`backtick">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page|pipe">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+    <diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page=equal-sign">
+        <mxGraphModel dx="782" dy="852" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <UserObject label="Some text" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-2">
+                    <mxCell style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+                        <mxGeometry x="10" y="10" width="120" height="60" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+                <UserObject label="Some link" link="https://github.com/rlespinasse/qanda" id="X03gjs-y7KjdQwQyzjE4-4">
+                    <mxCell style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+                        <mxGeometry x="30" y="90" width="80" height="20" as="geometry"/>
+                    </mxCell>
+                </UserObject>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
