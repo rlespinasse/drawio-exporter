@@ -1,22 +1,6 @@
 = drawio-exporter
 
-:crate-version: https://img.shields.io/crates/v/drawio-exporter.svg
-:crate-downloads: https://img.shields.io/crates/d/drawio-exporter.svg
-:crate: https://crates.io/crates/drawio-exporter
-:ci-badge: https://github.com/rlespinasse/drawio-exporter/workflows/Continuous%20integration/badge.svg
-:security-badge: https://github.com/rlespinasse/drawio-exporter/workflows/Security%20audit/badge.svg
-:actions: https://github.com/rlespinasse/drawio-exporter/actions
-:license-badge: https://img.shields.io/github/license/rlespinasse/drawio-exporter
-:license: https://github.com/rlespinasse/drawio-exporter/blob/v1.x/LICENSE
-:cargo-installation: https://doc.rust-lang.org/cargo/getting-started/installation.html
-
-image:{crate-version}[Crate,link={crate}]
-image:{crate-downloads}[Crate,link={crate}]
-image:{ci-badge}[CI Status,link={actions}]
-image:{security-badge}[Security Audit Status,link={actions}]
-image:{license-badge}[License,link={license}]
-
-Drawio-exporter provide enhance capabilities to the export feature of drawio-desktop.
+Drawio-exporter provides enhanced capabilities to the export feature of drawio-desktop.
 
 == Features
 
@@ -26,14 +10,14 @@ Drawio-exporter provide enhance capabilities to the export feature of drawio-des
 
 == Supported Export formats
 
-* **draw.io** export formats : jpg, pdf, png, svg, vsdx, and xml
+* **draw.io** export formats: jpg, pdf, png, svg, vsdx, and xml
 * **drawio-exporter** additional formats
-** adoc - Export in png and create an additional asciidoc file (with support external links).
-** md - Export in png and create an additional markdown file (with support external links).
+** adoc - Export in PNG and create an additional asciidoc file (with support external links).
+** md - Export in PNG and create an additional markdown file (with support external links).
 
 == Installation
 
-* Via {cargo-installation}[Cargo]
+* Via https://doc.rust-lang.org/cargo/getting-started/installation.html[Cargo]
 +
 [source,shell]
 ----
