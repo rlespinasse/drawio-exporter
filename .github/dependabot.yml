@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "cargo"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+    reviewers:
+      - "rlespinasse"
+    labels: [ ]
+    
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+    reviewers:
+      - "rlespinasse"
+    labels: [ ]
