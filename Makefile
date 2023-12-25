@@ -14,6 +14,10 @@ clippy:
 	@echo + $@
 	cargo clippy --all-features --all-targets
 
+audit:
+	@echo + $@
+	cargo audit
+
 DEPS=
 deps:
 	@echo + $@
