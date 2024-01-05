@@ -5,6 +5,7 @@ use serde::{Deserialize, Deserializer};
 use std::fs;
 use std::io::Read;
 use std::path::Path;
+use base64::{Engine as _, engine::{general_purpose}};
 
 #[derive(Debug, Deserialize, PartialEq, Default, Clone)]
 pub struct MxCell {
@@ -165,7 +166,7 @@ fn parse_compressed_content(path: &Path, content: String) -> Result<Mxfile> {
 fn decompress(mxfile_with_compressed_diagrams: MxfileWithCompressDiagrams) -> Result<Mxfile> {
     let mut diagrams: Vec<Diagram> = vec![];
     for compressed_diagram in mxfile_with_compressed_diagrams.diagrams {
-        let base64_raw_diagram = base64::decode(compressed_diagram.raw_diagram)?;
+        let base64_raw_diagram = general_purpose::STANDARD.decode(compressed_diagram.raw_diagram)?;
 
         let mut raw_diagram_deflate_decoder = DeflateDecoder::new(&base64_raw_diagram[..]);
         let mut urlencoded_diagram = String::new();
