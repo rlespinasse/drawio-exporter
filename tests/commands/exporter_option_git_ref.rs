@@ -16,7 +16,7 @@ fn export_using_option_git_ref_inside_simple_folder() -> Result<()> {
 
 Caused by:
     0: need to be a git repository {}
-    1: could not find repository from '{}'; class=Repository (6); code=NotFound (-3)",
+    1: could not find repository at '{}'; class=Repository (6); code=NotFound (-3)",
         tempdir.path().display(),
         tempdir.path().display(),
         tempdir.path().display()
