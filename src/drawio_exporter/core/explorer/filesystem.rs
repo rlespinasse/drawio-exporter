@@ -27,7 +27,7 @@ impl<'a> FilterOptions<'a> {
     }
 }
 
-pub fn explore_path(path: &Path, filter_options: FilterOptions) -> Result<Vec<(PathBuf, Mxfile)>> {
+pub fn explore_path(path: &Path, filter_options: FilterOptions<'_>) -> Result<Vec<(PathBuf, Mxfile)>> {
     let drawio_paths: Vec<PathBuf> = collect_files_from_filesystem(path);
 
     let mut files: Vec<(PathBuf, Mxfile)> = vec![];
