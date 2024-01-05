@@ -34,7 +34,7 @@ pub struct ExporterOptions<'a> {
     pub embed_diagram: bool,
 }
 
-pub fn exporter(options: ExporterOptions) -> Result<()> {
+pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
     // Fallback in case of empty path, we take the current directory
     let input_path = match options.path {
         "" => PathBuf::from("."),
@@ -138,7 +138,7 @@ pub fn exporter(options: ExporterOptions) -> Result<()> {
 }
 
 fn generate_formatted_text_file(
-    options: &ExporterOptions,
+    options: &ExporterOptions<'_>,
     path: &Path,
     diagram: &Diagram,
     file_stem: &OsStr,

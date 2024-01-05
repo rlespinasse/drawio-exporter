@@ -10,7 +10,7 @@ pub struct DrawioDesktop<'a> {
 }
 
 impl<'a> DrawioDesktop<'a> {
-    pub fn new(application: &String, is_headless: bool) -> Result<DrawioDesktop> {
+    pub fn new(application: &String, is_headless: bool) -> Result<DrawioDesktop<'_>> {
         if !PathBuf::from(application).exists() {
             return Err(anyhow!(format!(
                 "Draw.io Desktop application path '{}' don't exists",
