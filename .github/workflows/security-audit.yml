@@ -18,7 +18,5 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Audit check
-        uses: actions-rs/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Audit
+        run: make audit

@@ -2,6 +2,9 @@ name: Build
 
 on: push
 
+env:
+  RUSTFLAGS: "-Dwarnings"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,22 +15,14 @@ jobs:
       - name: Preflight // Test
         run: |
           sudo apt-get install -y xvfb libappindicator3-1 libnotify4
-          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v21.5.1/drawio-amd64-21.5.1.deb
-          sudo dpkg -i drawio-amd64-21.5.1.deb
+          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v22.1.16/drawio-amd64-22.1.16.deb
+          sudo dpkg -i drawio-amd64-22.1.16.deb
           sudo apt-get -y -f install
 
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: Install Rust toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
 
       - name: Cache
         uses: actions/cache@v3
@@ -39,21 +34,16 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
+        run: make build
 
       - name: Test
-        run: xvfb-run --auto-servernum cargo test
+        run: xvfb-run --auto-servernum make test
 
       - name: Format
-        uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: --all -- --check
+        run: make fmt
 
       - name: Clippy
-        uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: --all-features
+        run: make clippy
+
+      - name: Audit
+        run: make audit

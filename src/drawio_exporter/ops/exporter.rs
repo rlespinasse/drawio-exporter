@@ -158,7 +158,7 @@ fn generate_formatted_text_file(
         .join(options.folder)
         .join(formatted_text_filename);
 
-    let mut file = File::create(&formatted_text_path)?;
+    let mut file = File::create(formatted_text_path)?;
     if options.format.eq("adoc") {
         write!(
             file,
