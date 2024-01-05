@@ -40,7 +40,7 @@ jobs:
         run: xvfb-run --auto-servernum make test
 
       - name: Format
-        run: make fmt
+        run: make fmt-check
 
       - name: Clippy
         run: make clippy
