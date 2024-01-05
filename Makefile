@@ -1,4 +1,4 @@
-dev-local: fmt clippy-fix idioms-fix audit build test
+dev-local: fmt clippy-fix idioms-fix fix audit build test
 
 build:
 	@echo + $@
@@ -23,6 +23,10 @@ clippy:
 clippy-fix:
 	@echo + $@
 	cargo clippy --fix --all-features --all-targets --allow-dirty
+
+fix:
+	@echo + $@
+	cargo fix --allow-dirty
 
 idioms-fix:
 	@echo + $@
