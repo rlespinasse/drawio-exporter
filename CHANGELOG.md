@@ -7,6 +7,15 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Added
+
+- Move to Rust 2021 to be up-to-date
+
+### Fixed
+
+- Update dependencies to avoid vulnerabilities
+
 ## [1.2.0] - 2022-07-25
 
 ### Added
@@ -67,5 +76,4 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [Unreleased]: https://github.com/rlespinasse/wints/compare/v1.2.0...HEAD
 [1.2.0]: https://github.com/rlespinasse/wints/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/rlespinasse/wints/compare/v1.0.0...v1.1.0
-
 [1.0.0]: https://github.com/rlespinasse/drawio-exported/compare/cb9aec8...v1.0.0

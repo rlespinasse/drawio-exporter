@@ -22,15 +22,15 @@ clippy:
 
 clippy-fix:
 	@echo + $@
-	cargo clippy --fix --all-features --all-targets --allow-dirty
+	cargo clippy --fix --all-features --all-targets --allow-dirty --allow-staged
 
 fix:
 	@echo + $@
-	cargo fix --allow-dirty
+	cargo fix --allow-dirty --allow-staged
 
 idioms-fix:
 	@echo + $@
-	cargo fix --edition-idioms --allow-dirty
+	cargo fix --edition-idioms --allow-dirty --allow-staged
 
 update:
 	@echo + $@
@@ -47,8 +47,8 @@ deps:
 
 release-%:
 	@echo + $@
-	cargo release -- $*
+	cargo release --execute $*
 
 dryrun-release-%:
 	@echo + $@
-	cargo release --dry-run -vv -- $*
+	cargo release $*
