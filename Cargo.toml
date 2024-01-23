@@ -18,7 +18,7 @@ path = "src/drawio_exporter/lib.rs"
 [dependencies]
 anyhow = "1.0"
 clap = { version = "4.4", features = ["cargo"] }
-predicates = "3.0"
+predicates = "3.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_derive = "1.0"
 serde-xml-rs = "0.6"
