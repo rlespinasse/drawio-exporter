@@ -8,8 +8,8 @@ fn export_single_diagram_file_with_no_option_remove_page_suffix() -> Result<()> 
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("single_page", true)?;
 
     let output = "+ export file : single_page/single-page.drawio
-++ export page 1 : Page-1
-+++ generate pdf file";
+- export page 1 : Page-1
+\\ generate pdf file";
 
     drawio_exporter
         .cmd
@@ -26,8 +26,8 @@ fn export_single_diagram_file_with_option_remove_page_suffix() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("single_page", true)?;
 
     let output = "+ export file : single_page/single-page.drawio
-++ export page 1 : Page-1
-+++ generate pdf file";
+- export page 1 : Page-1
+\\ generate pdf file";
 
     drawio_exporter
         .cmd
@@ -45,10 +45,10 @@ fn export_using_specific_path() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
 
     let output = "+ export file : nominal.drawio
-++ export page 1 : Page-1
-+++ generate pdf file
-++ export page 2 : Page 2
-+++ generate pdf file";
+- export page 1 : Page-1
+\\ generate pdf file
+- export page 2 : Page 2
+\\ generate pdf file";
 
     drawio_exporter
         .cmd

@@ -71,7 +71,7 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
         let with_page_suffix = !(options.remove_page_suffix && mxfile.diagrams.len() == 1);
         for (position, diagram) in mxfile.diagrams.iter().enumerate() {
             let position_to_display = position + 1;
-            println!("++ export page {} : {}", position_to_display, diagram.name);
+            println!("- export page {} : {}", position_to_display, diagram.name);
 
             let file_stem = path.file_stem().unwrap();
             let file_stem_suffix = match with_page_suffix {
@@ -98,7 +98,7 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
                 .join(options.folder)
                 .join(&output_filename);
 
-            println!("+++ generate {} file", real_format);
+            println!("\\ generate {} file", real_format);
 
             drawio_desktop.execute(ExportArguments {
                 recursive: false,
@@ -145,7 +145,7 @@ fn generate_formatted_text_file(
     file_stem_suffix: String,
     output_filename: String,
 ) -> Result<()> {
-    println!("+++ generate {} file", options.format);
+    println!("\\ generate {} file", options.format);
     let formatted_text_filename = format!(
         "{}{}.{}",
         file_stem.to_str().unwrap(),
@@ -187,7 +187,7 @@ image::{}[{}]
         )?;
     }
 
-    println!("+++ include links in {} file", options.format);
+    println!("\\ include links in {} file", options.format);
     for (link, label) in diagram.get_links() {
         if label.is_empty() {
             println!(
