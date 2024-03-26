@@ -102,10 +102,10 @@ fn export_using_option_git_ref_with_value_root_commit_sha1() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
 
     let output = "+ export file : nominal.drawio
-++ export page 1 : Page-1
-+++ generate pdf file
-++ export page 2 : Page 2
-+++ generate pdf file";
+- export page 1 : Page-1
+\\ generate pdf file
+- export page 2 : Page 2
+\\ generate pdf file";
 
     drawio_exporter
         .cmd
