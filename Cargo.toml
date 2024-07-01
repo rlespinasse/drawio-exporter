@@ -27,7 +27,7 @@ flate2 = "1.0"
 base64 = "0.22"
 urlencoding = "2.1"
 regex = "1.10"
-git2 = "0.18"
+git2 = "0.19"
 relative-path = "1.9"
 
 [dev-dependencies]
