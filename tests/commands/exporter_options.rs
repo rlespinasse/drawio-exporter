@@ -52,7 +52,7 @@ fn export_using_specific_path() -> Result<()> {
 
     drawio_exporter
         .cmd
-        .arg(&drawio_exporter.current_dir.join("types"))
+        .arg(drawio_exporter.current_dir.join("types"))
         .assert()
         .success()
         .stdout(contains(output));
