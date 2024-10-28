@@ -12,6 +12,10 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - Move to Rust 2021 to be up-to-date
 
+### Changes
+
+- Remove any illegal characters from the generated filename
+
 ### Fixed
 
 - Update dependencies to avoid vulnerabilities

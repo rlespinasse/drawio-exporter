@@ -47,7 +47,7 @@ fn export_using_specific_path() -> Result<()> {
     let output = "+ export file : nominal.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file";
 
     drawio_exporter

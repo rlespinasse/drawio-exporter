@@ -71,14 +71,46 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
         let with_page_suffix = !(options.remove_page_suffix && mxfile.diagrams.len() == 1);
         for (position, diagram) in mxfile.diagrams.iter().enumerate() {
             let position_to_display = position + 1;
-            println!("- export page {} : {}", position_to_display, diagram.name);
+            let valid_diagram_name = diagram
+                .name
+                .chars()
+                .map(|x| match x {
+                    ' ' => '-',
+                    // https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words
+                    '&' => '-',
+                    '#' => '-',
+                    '%' => '-',
+                    '{' => '-',
+                    '}' => '-',
+                    '\\' => '-',
+                    '/' => '-',
+                    '<' => '-',
+                    '>' => '-',
+                    '*' => '-',
+                    '?' => '-',
+                    '$' => '-',
+                    '!' => '-',
+                    '\'' => '-',
+                    '"' => '-',
+                    ':' => '-',
+                    ';' => '-',
+                    ',' => '-',
+                    '@' => '-',
+                    '+' => '-',
+                    '`' => '-',
+                    '|' => '-',
+                    '=' => '-',
+                    _ => x,
+                })
+                .collect::<String>();
+            println!(
+                "- export page {} : {}",
+                position_to_display, valid_diagram_name
+            );
 
             let file_stem = path.file_stem().unwrap();
             let file_stem_suffix = match with_page_suffix {
-                true => {
-                    let page_suffix = diagram.name.replace(' ', "-");
-                    format!("-{}", page_suffix)
-                }
+                true => format!("-{}", valid_diagram_name),
                 false => "".to_string(),
             };
             let real_format = match options.format.as_str() {

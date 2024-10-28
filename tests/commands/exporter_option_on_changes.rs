@@ -13,22 +13,22 @@ fn export_only_changed_files() -> Result<()> {
     let output_first_run = "+ export file : tree/file1.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file
 + export file : tree/folder1/file2.1.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file
 + export file : tree/folder1/file2.2.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file
 + export file : tree/folder2/folder3/file3.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file";
 
     drawio_exporter
@@ -63,12 +63,12 @@ fn export_only_changed_files() -> Result<()> {
     let output_second_run = "+ export file : tree/file1.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file
 + export file : tree/folder1/file2.2.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file";
 
     drawio_exporter.new_cmd()?;

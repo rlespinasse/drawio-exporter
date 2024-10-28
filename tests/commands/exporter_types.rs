@@ -10,7 +10,7 @@ fn export_default_format() -> Result<()> {
     let output = "+ export file : types/nominal.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file";
 
     drawio_exporter
@@ -32,7 +32,7 @@ fn export_adoc_format() -> Result<()> {
 \\ generate png file
 \\ generate adoc file
 \\ include links in adoc file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate png file
 \\ generate adoc file
 \\ include links in adoc file";
@@ -58,7 +58,7 @@ fn export_md_format() -> Result<()> {
 \\ generate png file
 \\ generate md file
 \\ include links in md file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate png file
 \\ generate md file
 \\ include links in md file";
@@ -82,7 +82,7 @@ fn export_pdf_format() -> Result<()> {
     let output = "+ export file : types/nominal.drawio
 - export page 1 : Page-1
 \\ generate pdf file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate pdf file";
 
     drawio_exporter
@@ -104,7 +104,7 @@ fn export_png_format() -> Result<()> {
     let output = "+ export file : types/nominal.drawio
 - export page 1 : Page-1
 \\ generate png file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate png file";
 
     drawio_exporter
@@ -126,7 +126,7 @@ fn export_xml_format() -> Result<()> {
     let output = "+ export file : types/nominal.drawio
 - export page 1 : Page-1
 \\ generate xml file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate xml file";
 
     drawio_exporter
@@ -148,7 +148,7 @@ fn export_svg_format() -> Result<()> {
     let output = "+ export file : types/nominal.drawio
 - export page 1 : Page-1
 \\ generate svg file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate svg file";
 
     drawio_exporter
@@ -170,7 +170,7 @@ fn export_vsdx_format() -> Result<()> {
     let output = "+ export file : types/nominal.drawio
 - export page 1 : Page-1
 \\ generate vsdx file
-- export page 2 : Page 2
+- export page 2 : Page-2
 \\ generate vsdx file";
 
     drawio_exporter
