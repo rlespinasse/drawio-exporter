@@ -33,17 +33,19 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
+      - uses: taiki-e/install-action@just
+
       - name: Build
-        run: make build
+        run: just build
 
       - name: Test
-        run: xvfb-run --auto-servernum make test
+        run: xvfb-run --auto-servernum just test
 
       - name: Format
-        run: make fmt-check
+        run: just fmt-check
 
       - name: Clippy
-        run: make clippy
+        run: just clippy
 
       - name: Audit
-        run: make audit
+        run: just audit
