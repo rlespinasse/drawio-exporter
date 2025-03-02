@@ -1,7 +1,7 @@
 use anyhow::Result;
 use clap::{Arg, ArgAction, ArgMatches};
 use drawio_exporter::core::drawio::drawio_desktop::os_default_application;
-use drawio_exporter::ops::exporter::{exporter, ExporterOptions};
+use drawio_exporter::ops::exporter::{ExporterOptions, exporter};
 
 pub fn args() -> Vec<Arg> {
     vec![

@@ -3,7 +3,7 @@ use std::io::Read;
 use std::path::Path;
 
 use anyhow::{Context, Result};
-use base64::{engine::general_purpose, Engine as _};
+use base64::{Engine as _, engine::general_purpose};
 use flate2::read::DeflateDecoder;
 use regex::Regex;
 use serde::{Deserialize, Deserializer};

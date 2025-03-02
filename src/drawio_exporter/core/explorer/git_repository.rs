@@ -1,4 +1,4 @@
-use crate::core::drawio::mxfile::{read_file, Mxfile};
+use crate::core::drawio::mxfile::{Mxfile, read_file};
 use anyhow::{Context, Result};
 use git2::{DiffOptions, Object, ObjectType, Repository};
 use std::path::{Path, PathBuf};
