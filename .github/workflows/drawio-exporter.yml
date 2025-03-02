@@ -14,7 +14,7 @@ jobs:
     steps:
       - name: Preflight // Test
         run: |
-          sudo apt-get install -y xvfb libgbm1 libasound2
+          sudo apt-get install -y xvfb libgbm1 libasound2t64
           wget -q https://github.com/jgraph/drawio-desktop/releases/download/v26.0.9/drawio-amd64-26.0.9.deb
           sudo dpkg -i drawio-amd64-26.0.9.deb
           sudo apt-get -y -f install
