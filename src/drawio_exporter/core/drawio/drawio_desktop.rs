@@ -27,8 +27,8 @@ impl<'a> DrawioDesktop<'a> {
     pub fn execute(&self, arguments: ExportArguments<'a>) -> Result<()> {
         let mut shell_arguments = arguments.as_shell_arguments();
 
+        shell_arguments.push("--no-sandbox");
         if self.is_headless {
-            shell_arguments.push("--no-sandbox");
             shell_arguments.push("--disable-dev-shm-usage");
         }
 
