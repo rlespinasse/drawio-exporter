@@ -18,5 +18,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - uses: taiki-e/install-action@just
+
       - name: Audit
-        run: make audit
+        run: |
+          cargo install cargo-audit
+          just audit
