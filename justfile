@@ -61,7 +61,7 @@ audit:
 
 # Analyse dependencies tree
 [group('Debug mode')]
-deps DEPS="wints":
+deps DEPS="drawio-exporter":
 	cargo tree --package {{ DEPS }}
 
 # Release a new version (Possible values: major, minor, patch, release, rc, beta, alpha)

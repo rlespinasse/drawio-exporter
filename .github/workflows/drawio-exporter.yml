@@ -14,9 +14,9 @@ jobs:
     steps:
       - name: Preflight // Test
         run: |
-          sudo apt-get install -y xvfb libappindicator3-1 libnotify4
-          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v22.1.16/drawio-amd64-22.1.16.deb
-          sudo dpkg -i drawio-amd64-22.1.16.deb
+          sudo apt-get install -y xvfb libgbm1 libasound2
+          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v26.0.9/drawio-amd64-26.0.9.deb
+          sudo dpkg -i drawio-amd64-26.0.9.deb
           sudo apt-get -y -f install
 
       - name: Checkout
@@ -48,4 +48,6 @@ jobs:
         run: just clippy
 
       - name: Audit
-        run: just audit
+        run: |
+          cargo install cargo-audit
+          just audit
