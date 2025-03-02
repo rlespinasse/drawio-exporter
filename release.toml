@@ -1,8 +1,8 @@
-pre-release-commit-message = "(build) Release {{version}}"
+pre-release-commit-message = "build: release {{version}}"
 pre-release-replacements = [
-    {file="CHANGELOG.md", search="Unreleased", replace="{{version}}"},
-    {file="CHANGELOG.md", search="\\.\\.\\.HEAD", replace="...{{tag_name}}"},
-    {file="CHANGELOG.md", search="ReleaseDate", replace="{{date}}"},
-    {file="CHANGELOG.md", search="<!-- next-header -->", replace="<!-- next-header -->\n## [Unreleased] - ReleaseDate"},
-    {file="CHANGELOG.md", search="<!-- next-url -->", replace="<!-- next-url -->\n[Unreleased]: https://github.com/rlespinasse/drawio-exporter/compare/{{tag_name}}...HEAD"},
+    { file = "CHANGELOG.md", search = "Unreleased", replace = "{{version}}" },
+    { file = "CHANGELOG.md", search = "\\.\\.\\.HEAD", replace = "...{{tag_name}}" },
+    { file = "CHANGELOG.md", search = "ReleaseDate", replace = "{{date}}" },
+    { file = "CHANGELOG.md", search = "<!-- next-header -->", replace = "<!-- next-header -->\n## [Unreleased] - ReleaseDate" },
+    { file = "CHANGELOG.md", search = "<!-- next-url -->", replace = "<!-- next-url -->\n[Unreleased]: https://github.com/rlespinasse/drawio-exporter/compare/{{tag_name}}...HEAD" },
 ]
