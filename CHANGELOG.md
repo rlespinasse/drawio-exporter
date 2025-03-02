@@ -10,7 +10,7 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
-- Move to Rust 2021 to be up-to-date
+- Move to Rust 2024 to be up-to-date
 
 ### Changes
 
