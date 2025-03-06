@@ -7,6 +7,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Fixed
+
+- Option `--drawio-desktop-headless` wasn't not properly set as a boolean flag
+
 ## [1.3.0] - 2025-03-02
 
 ### Added
