@@ -14,7 +14,8 @@ pub fn args() -> Vec<Arg> {
             .long("application"),
         Arg::new("drawio-desktop-headless")
             .help("Enable Draw.io Desktop headless mode")
-            .long("drawio-desktop-headless"),
+            .long("drawio-desktop-headless")
+            .action(ArgAction::SetTrue),
         Arg::new("format")
             .help("Exported format")
             .value_name("format")
@@ -113,7 +114,10 @@ pub fn args() -> Vec<Arg> {
 pub fn exec(args: &ArgMatches) -> Result<()> {
     exporter(ExporterOptions {
         application: args.get_one("application").unwrap(),
-        drawio_desktop_headless: args.contains_id("drawio-desktop-headless"),
+        drawio_desktop_headless: args
+            .get_one::<bool>("drawio-desktop-headless")
+            .copied()
+            .unwrap(),
         folder: args.get_one("folder").unwrap(),
         on_filesystem_changes: args.get_one::<bool>("on-changes").copied().unwrap(),
         on_git_changes_since_reference: args.get_one("git-reference"),
