@@ -5,12 +5,16 @@ on: push
 env:
   RUSTFLAGS: "-Dwarnings"
 
+permissions: read-all
+
+concurrency:
+  group: build-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    concurrency:
-      group: build-${{ github.ref }}-${{ github.event_name }}
-      cancel-in-progress: true
+
     steps:
       - name: Preflight // Test
         run: |
