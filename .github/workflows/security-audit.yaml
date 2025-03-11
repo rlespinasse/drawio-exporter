@@ -8,12 +8,15 @@ on:
       - "**/Cargo.toml"
       - "**/Cargo.lock"
 
+permissions: read-all
+
+concurrency:
+  group: security-audit-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
 jobs:
   security-audit:
     runs-on: ubuntu-latest
-    concurrency:
-      group: security-audit-${{ github.ref }}-${{ github.event_name }}
-      cancel-in-progress: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
