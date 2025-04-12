@@ -28,4 +28,5 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JSCPD: false
           VALIDATE_YAML_PRETTIER: false
+          VALIDATE_RUST_CLIPPY: false # the current version of cargo doesn't support 'edition2024'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
