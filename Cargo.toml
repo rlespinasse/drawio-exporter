@@ -21,9 +21,9 @@ clap = { version = "4.5", features = ["cargo"] }
 predicates = "3.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_derive = "1.0"
-serde-xml-rs = "0.6"
+serde-xml-rs = "0.7"
 ignore = "0.4"
-flate2 = "1.0"
+flate2 = "1.1"
 base64 = "0.22"
 urlencoding = "2.1"
 regex = "1.11"
