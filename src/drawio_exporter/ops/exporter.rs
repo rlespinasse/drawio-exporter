@@ -103,10 +103,7 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
                     _ => x,
                 })
                 .collect::<String>();
-            println!(
-                "- export page {} : {}",
-                position_to_use, valid_diagram_name
-            );
+            println!("- export page {} : {}", position_to_use, valid_diagram_name);
 
             let file_stem = path.file_stem().unwrap();
             let file_stem_suffix = match with_page_suffix {
