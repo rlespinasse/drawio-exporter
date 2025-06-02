@@ -1,5 +1,5 @@
 use crate::DrawioExporterCommand;
-use anyhow::{Result, anyhow};
+use anyhow::{anyhow, Result};
 use assert_cmd::prelude::*;
 use glob::glob;
 use predicates::prelude::predicate::str::contains;
