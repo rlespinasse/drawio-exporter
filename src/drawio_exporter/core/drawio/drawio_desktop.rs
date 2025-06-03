@@ -1,4 +1,4 @@
-use anyhow::{Context, Result, anyhow};
+use anyhow::{anyhow, Context, Result};
 use predicate::str::contains;
 use predicates::prelude::*;
 use std::path::PathBuf;
