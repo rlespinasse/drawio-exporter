@@ -7,6 +7,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Fixed
+
+- Support Draw.io Desktop v27.0.2
+  - Option `--page-index` is now using 1-based index
+
 ## [1.3.1] - 2025-03-06
 
 ### Fixed
