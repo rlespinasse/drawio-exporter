@@ -27,6 +27,7 @@ jobs:
         env:
           VALIDATE_ALL_CODEBASE: false
           VALIDATE_JSCPD: false
+          VALIDATE_MARKDOWN_PRETTIER: false
           # rustfmt is unmaintained and the project use `cargo fmt`
           VALIDATE_RUST_2015: false
           VALIDATE_RUST_2018: false
