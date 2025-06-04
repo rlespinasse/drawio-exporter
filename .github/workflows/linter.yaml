@@ -32,4 +32,6 @@ jobs:
           VALIDATE_RUST_2015: false
           VALIDATE_RUST_2018: false
           VALIDATE_RUST_2021: false
+          # edition2024 is not supported yet
+          VALIDATE_RUST_CLIPPY: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
