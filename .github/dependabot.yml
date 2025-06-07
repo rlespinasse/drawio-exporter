@@ -1,25 +1,21 @@
 version: 2
 updates:
-  - package-ecosystem: "cargo"
-    directory: "/"
+  - package-ecosystem: 'cargo'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
     groups:
       dependencies:
         patterns:
-          - "*"
-    reviewers:
-      - "rlespinasse"
-    labels: [ ]
-    
-  - package-ecosystem: "github-actions"
-    directory: "/"
+          - '*'
+    labels: []
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
     groups:
       dependencies:
         patterns:
-          - "*"
-    reviewers:
-      - "rlespinasse"
-    labels: [ ]
+          - '*'
+    labels: []
