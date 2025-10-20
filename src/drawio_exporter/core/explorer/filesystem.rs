@@ -129,10 +129,10 @@ fn is_drawio_file_older_than_exported_files(
 }
 
 fn get_modified_date(path: &Path) -> Option<SystemTime> {
-    if let Ok(metadata) = fs::metadata(path) {
-        if let Ok(modified_date) = metadata.modified() {
-            return Some(modified_date);
-        }
+    if let Ok(metadata) = fs::metadata(path)
+        && let Ok(modified_date) = metadata.modified()
+    {
+        return Some(modified_date);
     }
     None
 }

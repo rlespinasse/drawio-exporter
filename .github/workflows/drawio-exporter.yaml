@@ -3,7 +3,7 @@ name: Build
 on: push
 
 env:
-  RUSTFLAGS: "-Dwarnings"
+  RUSTFLAGS: '-Dwarnings'
 
 permissions: read-all
 
@@ -28,7 +28,7 @@ jobs:
           sudo apt-get -y -f install
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -41,7 +41,9 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - uses: taiki-e/install-action@just
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: just
 
       - name: Build
         run: just build
