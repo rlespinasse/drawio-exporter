@@ -3,7 +3,7 @@ name: Build
 on: push
 
 env:
-  RUSTFLAGS: "-Dwarnings"
+  RUSTFLAGS: '-Dwarnings'
 
 permissions: read-all
 
@@ -41,7 +41,9 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - uses: taiki-e/install-action@just
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: rust
 
       - name: Build
         run: just build
