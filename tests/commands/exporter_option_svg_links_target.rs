@@ -1,4 +1,5 @@
 use crate::DrawioExporterCommand;
+use crate::commands::utils;
 use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
@@ -24,7 +25,9 @@ fn export_svg_using_option_svg_links_target_auto() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.svg", "nominal-Page-2.svg"];
+
+    utils::check_generate_files(&mut drawio_exporter, "svg", output_files)
 }
 
 #[test]
@@ -48,7 +51,9 @@ fn export_svg_using_option_svg_links_target_new_win() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.svg", "nominal-Page-2.svg"];
+
+    utils::check_generate_files(&mut drawio_exporter, "svg", output_files)
 }
 
 #[test]
@@ -72,5 +77,7 @@ fn export_svg_using_option_svg_links_target_same_win() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.svg", "nominal-Page-2.svg"];
+
+    utils::check_generate_files(&mut drawio_exporter, "svg", output_files)
 }

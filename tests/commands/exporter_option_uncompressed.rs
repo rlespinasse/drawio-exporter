@@ -1,4 +1,5 @@
 use crate::DrawioExporterCommand;
+use crate::commands::utils;
 use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
@@ -23,5 +24,7 @@ fn export_xml_using_option_uncompressed() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.xml", "nominal-Page-2.xml"];
+
+    utils::check_generate_files(&mut drawio_exporter, "xml", output_files)
 }

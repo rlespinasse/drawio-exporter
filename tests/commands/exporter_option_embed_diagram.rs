@@ -1,4 +1,5 @@
 use crate::DrawioExporterCommand;
+use crate::commands::utils;
 use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
@@ -23,7 +24,9 @@ fn export_pdf_using_option_embed_diagram() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.pdf", "nominal-Page-2.pdf"];
+
+    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
 }
 
 #[test]
@@ -46,7 +49,9 @@ fn export_png_using_option_embed_diagram() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.png", "nominal-Page-2.png"];
+
+    utils::check_generate_files(&mut drawio_exporter, "png", output_files)
 }
 
 #[test]
@@ -69,5 +74,7 @@ fn export_svg_using_option_embed_diagram() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.svg", "nominal-Page-2.svg"];
+
+    utils::check_generate_files(&mut drawio_exporter, "svg", output_files)
 }

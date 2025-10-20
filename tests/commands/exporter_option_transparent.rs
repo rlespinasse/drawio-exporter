@@ -1,4 +1,5 @@
 use crate::DrawioExporterCommand;
+use crate::commands::utils;
 use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
@@ -23,5 +24,7 @@ fn export_png_using_option_transparent() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["nominal-Page-1.png", "nominal-Page-2.png"];
+
+    utils::check_generate_files(&mut drawio_exporter, "png", output_files)
 }
