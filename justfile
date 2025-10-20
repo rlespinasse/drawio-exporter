@@ -5,6 +5,13 @@ set quiet := true
 default:
 	just --choose
 
+# Configure dev dependencies
+configure:
+	@echo + $@
+	rustup component add clippy
+	cargo install cargo-audit
+	cargo install cargo-tarpaulin
+
 # Execute all developements recipes
 [group('Development mode')]
 loop: fmt clippy-fix idioms-fix fix audit build test
@@ -58,6 +65,16 @@ update:
 [group('Development mode')]
 audit:
 	cargo audit
+
+# Generate coverage metrics
+[group('Development mode')]
+coverage:
+	cargo tarpaulin --out Html
+
+# Display coverage metrics
+[group('Development mode')]
+coverage-view:
+	[ -f file ] && open tarpaulin-report.html || just coverage
 
 # Analyse dependencies tree
 [group('Debug mode')]

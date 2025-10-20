@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Added
+
+- Support Draw.io Desktop v22.1.16
+  - --svg-theme is now supported for SVG format
+  - --svg-links-target is available for SVG format
+
 ## [1.3.2] - 2025-06-04
 
 ### Fixed

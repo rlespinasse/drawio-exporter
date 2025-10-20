@@ -1,80 +1,50 @@
+/*
+       // Drawio Desktop cli options for all formats
+       border
+       scale
+       enable-plugins
+       // Drawio Desktop cli options for PDF format
+       width
+       height
+       crop
+       embed-diagram
+       // Drawio Desktop cli options for PNG format
+       transparent
+       embed-diagram
+       // Drawio Desktop cli options for JPEG format
+       quality
+       // Drawio Desktop cli options for XML format
+       uncompressed
+       // Drawio Desktop cli options for SVG format
+       embed-svg-images
+       svg-theme
+       svg-links-target
+       embed-diagram
+*/
 use crate::DrawioExporterCommand;
 use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
+use tempfile::tempdir;
 
 #[test]
-fn export_single_diagram_file_with_no_option_remove_page_suffix() -> Result<()> {
-    let mut drawio_exporter = DrawioExporterCommand::new_using_data("single_page", true)?;
+fn export_using_option_enable_plugins() -> Result<()> {
+    let mut drawio_exporter = DrawioExporterCommand::new_using_data(".", true)?;
+    let tempdir = tempdir()?;
 
-    let output = "+ export file : single_page/single-page.drawio
-- export page 1 : Page-1
-\\ generate pdf file";
-
-    drawio_exporter
-        .cmd
-        .arg(&drawio_exporter.current_dir)
-        .assert()
-        .success()
-        .stdout(contains(output));
-
-    Ok(())
-}
-
-#[test]
-fn export_single_diagram_file_with_option_remove_page_suffix() -> Result<()> {
-    let mut drawio_exporter = DrawioExporterCommand::new_using_data("single_page", true)?;
-
-    let output = "+ export file : single_page/single-page.drawio
-- export page 1 : Page-1
-\\ generate pdf file";
-
-    drawio_exporter
-        .cmd
-        .arg("--remove-page-suffix")
-        .arg(&drawio_exporter.current_dir)
-        .assert()
-        .success()
-        .stdout(contains(output));
-
-    Ok(())
-}
-
-#[test]
-fn export_using_specific_path() -> Result<()> {
-    let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
-
-    let output = "+ export file : nominal.drawio
-- export page 1 : Page-1
-\\ generate pdf file
-- export page 2 : Page-2
-\\ generate pdf file";
-
-    drawio_exporter
-        .cmd
-        .arg(drawio_exporter.current_dir.join("types"))
-        .assert()
-        .success()
-        .stdout(contains(output));
-
-    Ok(())
-}
-
-#[test]
-fn export_using_unknown_path() -> Result<()> {
-    let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
-
-    let unknown_path = &drawio_exporter.current_dir.join("unknown");
     let output = format!(
-        "Error: path '{}' must exist (as directory or file)",
-        unknown_path.display()
+        "A {} B {} C {}",
+        tempdir.path().display(),
+        tempdir.path().display(),
+        tempdir.path().display()
     );
 
     drawio_exporter
         .cmd
-        .arg(unknown_path)
+        .arg("--enable-plugins")
+        .arg(tempdir.path())
         .assert()
-        .failure()
+        .success()
         .stderr(contains(output));
 
     Ok(())

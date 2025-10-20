@@ -84,6 +84,8 @@ pub struct ExportArguments<'a> {
     pub page_index: Option<&'a String>,
     pub page_range: Option<&'a String>,
     pub embed_svg_images: bool,
+    pub svg_theme: Option<&'a String>,
+    pub svg_links_target: Option<&'a String>,
     pub enable_plugins: bool,
 }
 
@@ -157,6 +159,16 @@ impl<'a> ExportArguments<'a> {
 
         if self.embed_svg_images {
             arguments.push("--embed-svg-images");
+        }
+
+        if let Some(svg_theme) = self.svg_theme {
+            arguments.push("--svg-theme");
+            arguments.push(svg_theme);
+        }
+
+        if let Some(svg_links_target) = self.svg_links_target {
+            arguments.push("--svg-links-target");
+            arguments.push(svg_links_target);
         }
 
         if self.enable_plugins {

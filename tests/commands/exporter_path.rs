@@ -1,0 +1,44 @@
+use crate::DrawioExporterCommand;
+use anyhow::Result;
+use assert_cmd::prelude::*;
+use predicates::prelude::predicate::str::contains;
+
+#[test]
+fn export_using_specific_path() -> Result<()> {
+    let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
+
+    let output = "+ export file : nominal.drawio
+- export page 1 : Page-1
+\\ generate pdf file
+- export page 2 : Page-2
+\\ generate pdf file";
+
+    drawio_exporter
+        .cmd
+        .arg(drawio_exporter.current_dir.join("types"))
+        .assert()
+        .success()
+        .stdout(contains(output));
+
+    Ok(())
+}
+
+#[test]
+fn export_using_unknown_path() -> Result<()> {
+    let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
+
+    let unknown_path = &drawio_exporter.current_dir.join("unknown");
+    let output = format!(
+        "Error: path '{}' must exist (as directory or file)",
+        unknown_path.display()
+    );
+
+    drawio_exporter
+        .cmd
+        .arg(unknown_path)
+        .assert()
+        .failure()
+        .stderr(contains(output));
+
+    Ok(())
+}
