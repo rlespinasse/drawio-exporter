@@ -10,6 +10,7 @@ use serde::{Deserialize, Deserializer};
 
 #[derive(Debug, Deserialize, PartialEq, Default, Clone)]
 pub struct MxCell {
+    #[serde(rename = "@value")]
     pub value: Option<String>,
 }
 
@@ -40,7 +41,9 @@ impl MxCell {
 
 #[derive(Debug, Deserialize, PartialEq, Default, Clone)]
 pub struct UserObject {
+    #[serde(rename = "@label")]
     pub label: Option<String>,
+    #[serde(rename = "@link")]
     pub link: Option<String>,
 }
 
@@ -92,7 +95,7 @@ fn deserialize_ignore_any<'de, D: Deserializer<'de>>(deserializer: D) -> Result<
 
 #[derive(Debug, Deserialize, PartialEq, Default, Clone)]
 pub struct Root {
-    #[serde(rename = "$value")]
+    #[serde(rename = "#content")]
     pub elements: Vec<Element>,
 }
 
@@ -104,7 +107,9 @@ pub struct MxGraphModel {
 
 #[derive(Debug, Deserialize, PartialEq, Default, Clone)]
 pub struct Diagram {
+    #[serde(rename = "@id")]
     pub id: String,
+    #[serde(rename = "@name")]
     pub name: String,
     #[serde(rename = "mxGraphModel", default)]
     pub mx_graph_model: MxGraphModel,
@@ -133,9 +138,11 @@ pub struct Mxfile {
 
 #[derive(Debug, Deserialize, PartialEq, Default, Clone)]
 pub struct CompressDiagram {
+    #[serde(rename = "@id")]
     pub id: String,
+    #[serde(rename = "@name")]
     pub name: String,
-    #[serde(rename = "$value")]
+    #[serde(rename = "#content")]
     pub raw_diagram: String,
 }
 
