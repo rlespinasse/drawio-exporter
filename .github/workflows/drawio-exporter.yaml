@@ -43,7 +43,7 @@ jobs:
 
       - uses: taiki-e/install-action@v2
         with:
-          tool: rust
+          tool: just
 
       - name: Build
         run: just build
