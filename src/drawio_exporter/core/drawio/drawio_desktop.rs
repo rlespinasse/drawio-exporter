@@ -43,16 +43,15 @@ impl<'a> DrawioDesktop<'a> {
                 )
             })?;
 
-        if let Ok(command_output_string) = String::from_utf8(command_output.stdout.clone()) {
-            if !command_output.status.success()
-                || contains("Error: ").eval(command_output_string.as_str())
-            {
-                let stderr = match String::from_utf8(command_output.stderr) {
-                    Ok(output) => output,
-                    Err(err) => format!("unreadable output due to {}", err),
-                };
-                anyhow::bail!("fail to export using draw.io desktop\n{}", stderr.as_str());
-            }
+        if let Ok(command_output_string) = String::from_utf8(command_output.stdout.clone())
+            && (!command_output.status.success()
+                || contains("Error: ").eval(command_output_string.as_str()))
+        {
+            let stderr = match String::from_utf8(command_output.stderr) {
+                Ok(output) => output,
+                Err(err) => format!("unreadable output due to {}", err),
+            };
+            anyhow::bail!("fail to export using draw.io desktop\n{}", stderr.as_str());
         }
         Ok(())
     }

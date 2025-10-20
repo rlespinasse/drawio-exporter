@@ -15,23 +15,23 @@ pub struct MxCell {
 
 impl MxCell {
     pub fn get_link(&self) -> Option<(String, String)> {
-        if let Some(value) = self.value.clone() {
-            if value.contains("href=") {
-                return MxCell::extract_link(value);
-            }
+        if let Some(value) = self.value.clone()
+            && value.contains("href=")
+        {
+            return MxCell::extract_link(value);
         }
         None
     }
 
     fn extract_link(value: String) -> Option<(String, String)> {
-        if let Ok(re) = Regex::new(".*href=\"(.*)\".*>(.*)<.*") {
-            if let Some(caps) = re.captures(value.as_str()) {
-                let link_url = caps.get(1).map(|link| link.as_str().to_string());
-                let link_label = caps.get(2).map(|link| link.as_str().to_string());
+        if let Ok(re) = Regex::new(".*href=\"(.*)\".*>(.*)<.*")
+            && let Some(caps) = re.captures(value.as_str())
+        {
+            let link_url = caps.get(1).map(|link| link.as_str().to_string());
+            let link_label = caps.get(2).map(|link| link.as_str().to_string());
 
-                if let (Some(url), Some(label)) = (link_url, link_label) {
-                    return Some((url, cleanup_label(label)));
-                }
+            if let (Some(url), Some(label)) = (link_url, link_label) {
+                return Some((url, cleanup_label(label)));
             }
         }
         None
@@ -46,10 +46,10 @@ pub struct UserObject {
 
 impl UserObject {
     pub fn get_link(&self) -> Option<(String, String)> {
-        if let Some(label) = self.label.clone() {
-            if let Some(url) = self.link.clone() {
-                return Some((url, cleanup_label(label)));
-            }
+        if let Some(label) = self.label.clone()
+            && let Some(url) = self.link.clone()
+        {
+            return Some((url, cleanup_label(label)));
         }
         None
     }
