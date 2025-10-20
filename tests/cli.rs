@@ -45,11 +45,11 @@ impl DrawioExporterCommand {
                 fs::create_dir_all(tempdir_base)?;
 
                 let tempdir = tempdir_in(tempdir_base)?;
-                tempdir.into_path()
+                tempdir.keep()
             }
             false => {
                 let tempdir = tempdir()?;
-                tempdir.into_path()
+                tempdir.keep()
             }
         };
 
