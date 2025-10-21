@@ -47,10 +47,8 @@ impl<'a> DrawioDesktop<'a> {
             && (!command_output.status.success()
                 || contains("Error: ").eval(command_output_string.as_str()))
         {
-            let stderr = match String::from_utf8(command_output.stderr) {
-                Ok(output) => output,
-                Err(err) => format!("unreadable output due to {}", err),
-            };
+            let stderr = String::from_utf8(command_output.stderr)
+                .unwrap_or_else(|err| format!("unreadable output due to {}", err));
             anyhow::bail!("fail to export using draw.io desktop\n{}", stderr.as_str());
         }
         Ok(())
@@ -83,6 +81,7 @@ pub struct ExportArguments<'a> {
     pub all_pages: bool,
     pub page_index: Option<&'a String>,
     pub page_range: Option<&'a String>,
+    pub embed_svg_fonts: bool,
     pub embed_svg_images: bool,
     pub svg_theme: Option<&'a String>,
     pub svg_links_target: Option<&'a String>,
@@ -155,6 +154,13 @@ impl<'a> ExportArguments<'a> {
 
         if self.uncompressed {
             arguments.push("--uncompressed");
+        }
+
+        arguments.push("--embed-svg-fonts");
+        if self.embed_svg_fonts {
+            arguments.push("true");
+        } else {
+            arguments.push("false");
         }
 
         if self.embed_svg_images {
