@@ -37,8 +37,92 @@ pub struct ExporterOptions<'a> {
     pub embed_diagram: bool,
 }
 
+/// Sanitizes a diagram name to be filesystem-safe by replacing reserved characters with hyphens.
+fn sanitize_diagram_name(name: &str) -> String {
+    name.chars()
+        .map(|x| match x {
+            ' ' => '-',
+            // https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words
+            '&' => '-',
+            '#' => '-',
+            '%' => '-',
+            '{' => '-',
+            '}' => '-',
+            '\\' => '-',
+            '/' => '-',
+            '<' => '-',
+            '>' => '-',
+            '*' => '-',
+            '?' => '-',
+            '$' => '-',
+            '!' => '-',
+            '\'' => '-',
+            '"' => '-',
+            ':' => '-',
+            ';' => '-',
+            ',' => '-',
+            '@' => '-',
+            '+' => '-',
+            '`' => '-',
+            '|' => '-',
+            '=' => '-',
+            _ => x,
+        })
+        .collect::<String>()
+}
+
+/// Resolves the actual export format to use. Maps documentation formats (adoc, md) to PNG.
+fn resolve_export_format(format: &str) -> &str {
+    match format {
+        "adoc" | "md" => "png",
+        _ => format,
+    }
+}
+
+/// Determines whether to include page suffix in output filenames.
+fn should_include_page_suffix(remove_page_suffix: bool, diagram_count: usize) -> bool {
+    !(remove_page_suffix && diagram_count == 1)
+}
+
+/// Builds the output path for an exported file.
+fn build_output_path(base_path: &Path, folder: &str, filename: &str) -> PathBuf {
+    base_path.parent().unwrap().join(folder).join(filename)
+}
+
+/// Builds export arguments from the exporter options.
+fn build_export_arguments<'a>(
+    options: &'a ExporterOptions,
+    input: &'a str,
+    output: Option<&'a str>,
+    format: &'a str,
+    page_index: Option<&'a String>,
+) -> ExportArguments<'a> {
+    ExportArguments {
+        recursive: false,
+        output,
+        input,
+        format,
+        border: options.border,
+        scale: options.scale,
+        width: options.width,
+        height: options.height,
+        crop: options.crop,
+        embed_diagram: options.embed_diagram,
+        transparent: options.transparent,
+        quality: options.quality,
+        uncompressed: options.uncompressed,
+        all_pages: options.all_pages,
+        page_index,
+        page_range: None,
+        embed_svg_images: options.embed_svg_images,
+        svg_theme: options.svg_theme,
+        svg_links_target: options.svg_links_target,
+        enable_plugins: options.enable_plugins,
+    }
+}
+
 pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
-    // Fallback in case of empty path, we take the current directory
+    // Fallback in case of an empty path, we take the current directory
     let input_path = match options.path {
         "" => PathBuf::from("."),
         path => PathBuf::from(path),
@@ -72,148 +156,92 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
         let drawio_file_path = drawio_path_base.relative(RelativePath::new(path.to_str().unwrap()));
         println!("+ export file : {}", drawio_file_path);
 
-        // If all pages option is set and format is PDF, we export all pages at once
+        // If 'all pages' option is set and the format is PDF, we export all pages at once
         if options.all_pages && options.format == "pdf" {
-            println!("- export all pages");
-
-            println!("\\ generate {} file", options.format.as_str());
-
-            let file_stem = path.file_stem().unwrap();
-            let output_filename = format!(
-                "{}.{}",
-                file_stem.to_str().unwrap(),
-                options.format.as_str()
-            );
-            let output_path = path
-                .parent()
-                .unwrap()
-                .join(options.folder)
-                .join(&output_filename);
-
-            drawio_desktop.execute(ExportArguments {
-                recursive: false,
-                output: output_path.to_str(),
-                input: path.to_str().unwrap(),
-                format: options.format.as_str(),
-                border: options.border,
-                scale: options.scale,
-                width: options.width,
-                height: options.height,
-                crop: options.crop,
-                embed_diagram: options.embed_diagram,
-                transparent: options.transparent,
-                quality: options.quality,
-                uncompressed: options.uncompressed,
-                all_pages: options.all_pages,
-                page_index: None,
-                page_range: None,
-                embed_svg_images: options.embed_svg_images,
-                svg_theme: options.svg_theme,
-                svg_links_target: options.svg_links_target,
-                enable_plugins: options.enable_plugins,
-            })?;
-
-            return Ok(());
-        }
-
-        let with_page_suffix = !(options.remove_page_suffix && mxfile.diagrams.len() == 1);
-        for (position, diagram) in mxfile.diagrams.iter().enumerate() {
-            let position_to_use = position + 1;
-            let valid_diagram_name = diagram
-                .name
-                .chars()
-                .map(|x| match x {
-                    ' ' => '-',
-                    // https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words
-                    '&' => '-',
-                    '#' => '-',
-                    '%' => '-',
-                    '{' => '-',
-                    '}' => '-',
-                    '\\' => '-',
-                    '/' => '-',
-                    '<' => '-',
-                    '>' => '-',
-                    '*' => '-',
-                    '?' => '-',
-                    '$' => '-',
-                    '!' => '-',
-                    '\'' => '-',
-                    '"' => '-',
-                    ':' => '-',
-                    ';' => '-',
-                    ',' => '-',
-                    '@' => '-',
-                    '+' => '-',
-                    '`' => '-',
-                    '|' => '-',
-                    '=' => '-',
-                    _ => x,
-                })
-                .collect::<String>();
-            println!("- export page {} : {}", position_to_use, valid_diagram_name);
-
-            let file_stem = path.file_stem().unwrap();
-            let file_stem_suffix = match with_page_suffix {
-                true => format!("-{}", valid_diagram_name),
-                false => "".to_string(),
-            };
-            let real_format = match options.format.as_str() {
-                "adoc" => "png",
-                "md" => "png",
-                _ => options.format.as_str(),
-            };
-            let output_filename = format!(
-                "{}{}.{}",
-                file_stem.to_str().unwrap(),
-                file_stem_suffix,
-                real_format
-            );
-            let output_path = path
-                .parent()
-                .unwrap()
-                .join(options.folder)
-                .join(&output_filename);
-
-            println!("\\ generate {} file", real_format);
-
-            drawio_desktop.execute(ExportArguments {
-                recursive: false,
-                output: output_path.to_str(),
-                input: path.to_str().unwrap(),
-                format: real_format,
-                border: options.border,
-                scale: options.scale,
-                width: options.width,
-                height: options.height,
-                crop: options.crop,
-                embed_diagram: options.embed_diagram,
-                transparent: options.transparent,
-                quality: options.quality,
-                uncompressed: options.uncompressed,
-                all_pages: options.all_pages,
-                page_index: Some(&position_to_use.to_string()),
-                page_range: None,
-                embed_svg_images: options.embed_svg_images,
-                svg_theme: options.svg_theme,
-                svg_links_target: options.svg_links_target,
-                enable_plugins: options.enable_plugins,
-            })?;
-
-            if options.format.eq("adoc") || options.format.eq("md") {
-                generate_formatted_text_file(
-                    &options,
-                    &path,
-                    diagram,
-                    file_stem,
-                    file_stem_suffix,
-                    output_filename,
-                )?;
-            }
+            export_pdf_all_pages(&options, &drawio_desktop, &path)?;
+        } else {
+            export_per_page(&options, &drawio_desktop, &path, mxfile)?;
         }
     }
 
     Ok(())
+}
+
+fn export_per_page(
+    options: &ExporterOptions,
+    drawio_desktop: &DrawioDesktop,
+    path: &PathBuf,
+    mxfile: Mxfile,
+) -> Result<()> {
+    let with_page_suffix =
+        should_include_page_suffix(options.remove_page_suffix, mxfile.diagrams.len());
+    for (position, diagram) in mxfile.diagrams.iter().enumerate() {
+        let position_to_use = position + 1;
+        let valid_diagram_name = sanitize_diagram_name(&diagram.name);
+        println!("- export page {} : {}", position_to_use, valid_diagram_name);
+
+        let file_stem = path.file_stem().unwrap();
+        let file_stem_suffix = match with_page_suffix {
+            true => format!("-{}", valid_diagram_name),
+            false => "".to_string(),
+        };
+        let real_format = resolve_export_format(options.format.as_str());
+        let output_filename = format!(
+            "{}{}.{}",
+            file_stem.to_str().unwrap(),
+            file_stem_suffix,
+            real_format
+        );
+        let output_path = build_output_path(path, options.folder, &output_filename);
+
+        println!("\\ generate {} file", real_format);
+
+        let page_index_str = position_to_use.to_string();
+        drawio_desktop.execute(build_export_arguments(
+            options,
+            path.to_str().unwrap(),
+            output_path.to_str(),
+            real_format,
+            Some(&page_index_str),
+        ))?;
+
+        if options.format.eq("adoc") || options.format.eq("md") {
+            generate_formatted_text_file(
+                options,
+                path,
+                diagram,
+                file_stem,
+                file_stem_suffix,
+                output_filename,
+            )?;
+        }
+    }
+    Ok(())
+}
+
+fn export_pdf_all_pages(
+    options: &ExporterOptions,
+    drawio_desktop: &DrawioDesktop,
+    path: &PathBuf,
+) -> Result<()> {
+    println!("- export all pages");
+    println!("\\ generate {} file", options.format.as_str());
+
+    let file_stem = path.file_stem().unwrap();
+    let output_filename = format!(
+        "{}.{}",
+        file_stem.to_str().unwrap(),
+        options.format.as_str()
+    );
+    let output_path = build_output_path(path, options.folder, &output_filename);
+
+    drawio_desktop.execute(build_export_arguments(
+        options,
+        path.to_str().unwrap(),
+        output_path.to_str(),
+        options.format.as_str(),
+        None,
+    ))
 }
 
 fn generate_formatted_text_file(
@@ -231,11 +259,7 @@ fn generate_formatted_text_file(
         file_stem_suffix,
         options.format
     );
-    let formatted_text_path = path
-        .parent()
-        .unwrap()
-        .join(options.folder)
-        .join(formatted_text_filename);
+    let formatted_text_path = build_output_path(path, options.folder, &formatted_text_filename);
 
     let mut file = File::create(formatted_text_path)?;
     if options.format.eq("adoc") {
