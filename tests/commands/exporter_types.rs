@@ -124,9 +124,7 @@ fn export_xml_format() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
 
     let output = "+ export file : types/nominal.drawio
-- export page 1 : Page-1
-\\ generate xml file
-- export page 2 : Page-2
+- export all pages
 \\ generate xml file";
 
     drawio_exporter
