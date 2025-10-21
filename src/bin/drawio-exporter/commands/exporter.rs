@@ -102,6 +102,13 @@ pub fn args() -> Vec<Arg> {
             .long("uncompressed")
             .action(ArgAction::SetTrue),
         // Drawio Desktop cli options for SVG format
+        Arg::new("drawio-cli-svg-embed-svg-fonts")
+            .help("Embed Fonts in SVG file")
+            .long("embed-svg-fonts")
+            .value_name("true|false")
+            .action(ArgAction::Set)
+            .value_parser(value_parser!(bool))
+            .default_value("true"),
         Arg::new("drawio-cli-svg-embed-svg-images")
             .help("Embed Images in SVG file")
             .long("embed-svg-images")
@@ -165,6 +172,9 @@ pub fn exec(args: &ArgMatches) -> Result<()> {
             .get_one::<bool>("drawio-cli-xml-uncompressed")
             .copied()
             .unwrap(),
+        embed_svg_fonts: *args
+            .get_one::<bool>("drawio-cli-svg-embed-svg-fonts")
+            .unwrap_or(&false),
         embed_svg_images: args
             .get_one::<bool>("drawio-cli-svg-embed-svg-images")
             .copied()
