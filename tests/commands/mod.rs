@@ -4,6 +4,7 @@ mod exporter_option_all_pages;
 mod exporter_option_border;
 mod exporter_option_crop;
 mod exporter_option_embed_diagram;
+mod exporter_option_embed_svg_fonts;
 mod exporter_option_embed_svg_images;
 mod exporter_option_enable_plugins;
 mod exporter_option_git_ref;
