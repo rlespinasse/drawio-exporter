@@ -78,6 +78,10 @@ pub fn args() -> Vec<Arg> {
             .help("crops PDF to diagram size")
             .long("crop")
             .action(ArgAction::SetTrue),
+        Arg::new("drawio-cli-pdf-all-pages")
+            .help("export all pages (for PDF format only)")
+            .long("all-pages")
+            .action(ArgAction::SetTrue),
         // Drawio Desktop cli options for PNG format
         Arg::new("drawio-cli-png-transparent")
             .help("Set transparent background for PNG")
@@ -146,6 +150,10 @@ pub fn exec(args: &ArgMatches) -> Result<()> {
         height: args.get_one("drawio-cli-pdf-height"),
         crop: args
             .get_one::<bool>("drawio-cli-pdf-crop")
+            .copied()
+            .unwrap(),
+        all_pages: args
+            .get_one::<bool>("drawio-cli-pdf-all-pages")
             .copied()
             .unwrap(),
         transparent: args

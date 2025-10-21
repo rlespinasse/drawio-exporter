@@ -1,5 +1,6 @@
 mod exporter;
 mod exporter_links;
+mod exporter_option_all_pages;
 mod exporter_option_border;
 mod exporter_option_crop;
 mod exporter_option_embed_diagram;
