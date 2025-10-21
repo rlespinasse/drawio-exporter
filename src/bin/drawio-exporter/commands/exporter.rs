@@ -102,6 +102,18 @@ pub fn args() -> Vec<Arg> {
             .help("Embed Images in SVG file")
             .long("embed-svg-images")
             .action(ArgAction::SetTrue),
+        Arg::new("drawio-cli-svg-svg-theme")
+            .help("Theme of the exported SVG image")
+            .value_name("theme")
+            .value_parser(["dark", "light"])
+            .default_value("light")
+            .long("svg-theme"),
+        Arg::new("drawio-cli-svg-svg-links-target")
+            .help("Target of links in the exported SVG image")
+            .value_name("target")
+            .value_parser(["auto", "new-win", "same-win"])
+            .default_value("auto")
+            .long("svg-links-target"),
         // Drawio Desktop cli options for multiple formats
         Arg::new("drawio-cli-pdf-png-svg-embed-diagram")
             .help("Includes a copy of the diagram for PDF, PNG, or SVG")
@@ -149,6 +161,8 @@ pub fn exec(args: &ArgMatches) -> Result<()> {
             .get_one::<bool>("drawio-cli-svg-embed-svg-images")
             .copied()
             .unwrap(),
+        svg_theme: args.get_one("drawio-cli-svg-svg-theme"),
+        svg_links_target: args.get_one("drawio-cli-svg-svg-links-target"),
         embed_diagram: args
             .get_one::<bool>("drawio-cli-pdf-png-svg-embed-diagram")
             .copied()

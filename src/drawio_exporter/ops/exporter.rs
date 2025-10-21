@@ -31,6 +31,8 @@ pub struct ExporterOptions<'a> {
     pub quality: &'a String,
     pub uncompressed: bool,
     pub embed_svg_images: bool,
+    pub svg_theme: Option<&'a String>,
+    pub svg_links_target: Option<&'a String>,
     pub embed_diagram: bool,
 }
 
@@ -147,6 +149,8 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
                 page_index: Some(&position_to_use.to_string()),
                 page_range: None,
                 embed_svg_images: options.embed_svg_images,
+                svg_theme: options.svg_theme,
+                svg_links_target: options.svg_links_target,
                 enable_plugins: options.enable_plugins,
             })?;
 

@@ -1,9 +1,8 @@
 use crate::DrawioExporterCommand;
-use anyhow::{Result, anyhow};
+use crate::commands::utils;
+use anyhow::Result;
 use assert_cmd::prelude::*;
-use glob::glob;
 use predicates::prelude::predicate::str::contains;
-use std::ffi::OsStr;
 
 #[test]
 fn export_nothing() -> Result<()> {
@@ -37,7 +36,12 @@ fn export_files_with_a_name_collision() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec![
+        "name-collision-Page-1.pdf",
+        //"name-Page-1.pdf",
+    ];
+
+    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
 }
 
 #[test]
@@ -72,7 +76,18 @@ fn export_files_from_a_folders_tree() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec![
+        "file1-Page-1.pdf",
+        "file1-Page-2.pdf",
+        "file2.1-Page-1.pdf",
+        "file2.1-Page-2.pdf",
+        "file2.2-Page-1.pdf",
+        "file2.2-Page-2.pdf",
+        "file3-Page-1.pdf",
+        "file3-Page-2.pdf",
+    ];
+
+    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
 }
 
 #[test]
@@ -92,7 +107,9 @@ fn export_file_with_spaces() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["file with spaces-Page-1.pdf", "file with spaces-Page-2.pdf"];
+
+    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
 }
 
 #[test]
@@ -180,19 +197,7 @@ fn export_file_with_illegal_characters() -> Result<()> {
         "names-Page-comma.pdf",
     ];
 
-    let os_output_files = output_files.iter().map(OsStr::new).collect::<Vec<&OsStr>>();
-
-    let search_pattern = format!("{}/**/*.pdf", &drawio_exporter.current_dir.display());
-    let missing_files: Vec<_> = glob(search_pattern.as_str())?
-        .map(|entry| entry.unwrap())
-        .filter(|entry| !os_output_files.contains(&entry.as_path().file_name().unwrap()))
-        .collect();
-
-    if !missing_files.is_empty() {
-        return Err(anyhow!(format!("Missing files: {:#?}", missing_files)));
-    }
-
-    Ok(())
+    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
 }
 
 #[test]
@@ -216,7 +221,14 @@ fn export_file_using_shapes() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec![
+        "shapes-AWS.pdf",
+        "shapes-Azure.pdf",
+        "shapes-GCP.pdf",
+        "shapes-K8S.pdf",
+    ];
+
+    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
 }
 
 #[test]
@@ -252,5 +264,7 @@ fn export_file_from_vscode() -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["vscode-Page-1.pdf", "vscode-Page-2.pdf"];
+
+    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
 }

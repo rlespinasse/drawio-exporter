@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Added
+
+- Support Draw.io Desktop v22.1.16
+  - --svg-theme is now supported for SVG format
+  - --svg-links-target is available for SVG format
+
 ## [1.3.2] - 2025-06-04
 
 ### Fixed
@@ -67,7 +74,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve error log on Draw.io Desktop call
 - Support Draw.io Desktop v14.5.1
   - --embed-diagram is now supported for PDF format
-- Updates default linux path used by Draw.io Desktop since v14.5.1
+- Updates default Linux path used by Draw.io Desktop since v14.5.1
 - Support more link extraction types upon mxfile format
   - link attach to a shape
   - link label on multiple lines
