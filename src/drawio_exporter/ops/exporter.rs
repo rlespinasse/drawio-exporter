@@ -170,7 +170,7 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
 fn export_per_page(
     options: &ExporterOptions,
     drawio_desktop: &DrawioDesktop,
-    path: &PathBuf,
+    path: &Path,
     mxfile: Mxfile,
 ) -> Result<()> {
     let with_page_suffix =
@@ -222,7 +222,7 @@ fn export_per_page(
 fn export_pdf_all_pages(
     options: &ExporterOptions,
     drawio_desktop: &DrawioDesktop,
-    path: &PathBuf,
+    path: &Path,
 ) -> Result<()> {
     println!("- export all pages");
     println!("\\ generate {} file", options.format.as_str());
