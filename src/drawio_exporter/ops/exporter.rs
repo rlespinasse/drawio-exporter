@@ -27,6 +27,7 @@ pub struct ExporterOptions<'a> {
     pub width: Option<&'a String>,
     pub height: Option<&'a String>,
     pub crop: bool,
+    pub all_pages: bool,
     pub transparent: bool,
     pub quality: &'a String,
     pub uncompressed: bool,
@@ -70,6 +71,51 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
     for (path, mxfile) in drawio_files {
         let drawio_file_path = drawio_path_base.relative(RelativePath::new(path.to_str().unwrap()));
         println!("+ export file : {}", drawio_file_path);
+
+        // If all pages option is set and format is PDF, we export all pages at once
+        if options.all_pages && options.format == "pdf" {
+            println!("- export all pages");
+
+            println!("\\ generate {} file", options.format.as_str());
+
+            let file_stem = path.file_stem().unwrap();
+            let output_filename = format!(
+                "{}.{}",
+                file_stem.to_str().unwrap(),
+                options.format.as_str()
+            );
+            let output_path = path
+                .parent()
+                .unwrap()
+                .join(options.folder)
+                .join(&output_filename);
+
+            drawio_desktop.execute(ExportArguments {
+                recursive: false,
+                output: output_path.to_str(),
+                input: path.to_str().unwrap(),
+                format: options.format.as_str(),
+                border: options.border,
+                scale: options.scale,
+                width: options.width,
+                height: options.height,
+                crop: options.crop,
+                embed_diagram: options.embed_diagram,
+                transparent: options.transparent,
+                quality: options.quality,
+                uncompressed: options.uncompressed,
+                all_pages: options.all_pages,
+                page_index: None,
+                page_range: None,
+                embed_svg_images: options.embed_svg_images,
+                svg_theme: options.svg_theme,
+                svg_links_target: options.svg_links_target,
+                enable_plugins: options.enable_plugins,
+            })?;
+
+            return Ok(());
+        }
+
         let with_page_suffix = !(options.remove_page_suffix && mxfile.diagrams.len() == 1);
         for (position, diagram) in mxfile.diagrams.iter().enumerate() {
             let position_to_use = position + 1;
@@ -145,7 +191,7 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
                 transparent: options.transparent,
                 quality: options.quality,
                 uncompressed: options.uncompressed,
-                all_pages: false,
+                all_pages: options.all_pages,
                 page_index: Some(&position_to_use.to_string()),
                 page_range: None,
                 embed_svg_images: options.embed_svg_images,
