@@ -4,8 +4,7 @@ use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
 
-#[test]
-fn export_using_option_scale() -> Result<()> {
+fn export_using_scale_option(option: &str) -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
 
     let output = "+ export file : types/nominal.drawio
@@ -16,7 +15,7 @@ fn export_using_option_scale() -> Result<()> {
 
     drawio_exporter
         .cmd
-        .arg("--scale")
+        .arg(option)
         .arg("2")
         .arg(&drawio_exporter.current_dir)
         .assert()
@@ -29,25 +28,11 @@ fn export_using_option_scale() -> Result<()> {
 }
 
 #[test]
+fn export_using_option_scale() -> Result<()> {
+    export_using_scale_option("--scale")
+}
+
+#[test]
 fn export_using_short_option_scale() -> Result<()> {
-    let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
-
-    let output = "+ export file : types/nominal.drawio
-- export page 1 : Page-1
-\\ generate pdf file
-- export page 2 : Page-2
-\\ generate pdf file";
-
-    drawio_exporter
-        .cmd
-        .arg("-s")
-        .arg("2")
-        .arg(&drawio_exporter.current_dir)
-        .assert()
-        .success()
-        .stdout(contains(output));
-
-    let output_files = vec!["nominal-Page-1.pdf", "nominal-Page-2.pdf"];
-
-    utils::check_generate_files(&mut drawio_exporter, "pdf", output_files)
+    export_using_scale_option("-s")
 }
