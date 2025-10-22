@@ -12,6 +12,7 @@ cargo install drawio-exporter
 
 * Recursive export
 * Partial export (newer, or based on git reference)
+* Per-page export (except for xml format)
 * Additional export formats with link extraction
 
 ## Supported Export formats
