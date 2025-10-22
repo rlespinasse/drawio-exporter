@@ -26,8 +26,10 @@ fn export_using_embed_diagram_option(format: &str, option: &str) -> Result<()> {
         .success()
         .stdout(contains(output));
 
-    let output_files = [format!("nominal-Page-1.{}", format),
-        format!("nominal-Page-2.{}", format)];
+    let output_files = [
+        format!("nominal-Page-1.{}", format),
+        format!("nominal-Page-2.{}", format),
+    ];
     let output_files_refs: Vec<&str> = output_files.iter().map(|s| s.as_str()).collect();
 
     utils::check_generate_files(&mut drawio_exporter, format, output_files_refs)
