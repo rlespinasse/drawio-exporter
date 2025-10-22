@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Make XML format export compliant with the non-support of page index
+- Prevent drawio-desktop CLI errors to be masked
 
 ## [1.3.2] - 2025-06-04
 
