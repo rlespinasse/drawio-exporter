@@ -1,4 +1,4 @@
-use anyhow::{Context, Result, anyhow};
+use anyhow::{Result, anyhow};
 use predicate::str::contains;
 use predicates::prelude::*;
 use std::path::PathBuf;
@@ -34,22 +34,14 @@ impl<'a> DrawioDesktop<'a> {
 
         let command_output = Command::new(self.application)
             .args(&shell_arguments)
-            .output()
-            .with_context(|| {
-                format!(
-                    "failed to execute application command line {} {}",
-                    self.application,
-                    shell_arguments.join(" ")
-                )
-            })?;
+            .output()?;
 
-        if let Ok(command_output_string) = String::from_utf8(command_output.stdout.clone())
+        if let Ok(command_output_string) = String::from_utf8(command_output.stderr.clone())
             && (!command_output.status.success()
                 || contains("Error: ").eval(command_output_string.as_str()))
         {
-            let stderr = String::from_utf8(command_output.stderr)
-                .unwrap_or_else(|err| format!("unreadable output due to {}", err));
-            anyhow::bail!("fail to export using draw.io desktop\n{}", stderr.as_str());
+            // Remove the 'Error: ' prefix since anyhow will add it automatically.
+            return Err(anyhow!(command_output_string.replace("Error: ", "")));
         }
         Ok(())
     }
