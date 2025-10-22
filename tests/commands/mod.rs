@@ -20,5 +20,5 @@ mod exporter_option_uncompressed;
 mod exporter_option_width;
 mod exporter_path;
 mod exporter_types;
-mod utils;
 mod issue_svg_shadow;
+mod utils;
