@@ -81,6 +81,7 @@ pub fn args() -> Vec<Arg> {
         Arg::new("drawio-cli-pdf-all-pages")
             .help("export all pages (for PDF format only)")
             .long("all-pages")
+            .short('a')
             .action(ArgAction::SetTrue),
         // Drawio Desktop cli options for PNG format
         Arg::new("drawio-cli-png-transparent")

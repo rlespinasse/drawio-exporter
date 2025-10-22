@@ -4,8 +4,7 @@ use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
 
-#[test]
-fn export_png_using_option_transparent() -> Result<()> {
+fn export_png_using_transparent_option(option: &str) -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
 
     let output = "+ export file : types/nominal.drawio
@@ -18,7 +17,7 @@ fn export_png_using_option_transparent() -> Result<()> {
         .cmd
         .arg("--format")
         .arg("png")
-        .arg("--transparent")
+        .arg(option)
         .arg(&drawio_exporter.current_dir)
         .assert()
         .success()
@@ -27,4 +26,14 @@ fn export_png_using_option_transparent() -> Result<()> {
     let output_files = vec!["nominal-Page-1.png", "nominal-Page-2.png"];
 
     utils::check_generate_files(&mut drawio_exporter, "png", output_files)
+}
+
+#[test]
+fn export_png_using_option_transparent() -> Result<()> {
+    export_png_using_transparent_option("--transparent")
+}
+
+#[test]
+fn export_png_using_short_option_transparent() -> Result<()> {
+    export_png_using_transparent_option("-t")
 }
