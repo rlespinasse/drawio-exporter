@@ -114,9 +114,9 @@ fn export_file_with_spaces() -> Result<()> {
 
 #[test]
 fn export_file_with_illegal_characters() -> Result<()> {
-    let mut drawio_exporter = DrawioExporterCommand::new_using_data("illegal-characters", true)?;
+    let mut drawio_exporter = DrawioExporterCommand::new_using_data("illegal_characters", true)?;
 
-    let output = "+ export file : illegal-characters/names.drawio
+    let output = "+ export file : illegal_characters/names.drawio
 - export page 1 : Page-pound
 \\ generate pdf file
 - export page 2 : Page-percent
