@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - --embed-svg-fonts is available for SVG format
 - Support '--all-pages' for exporting all pages into one PDF per drawio file
 
+### Fixed
+
+- Make XML format export compliant with the non-support of page index
+
 ## [1.3.2] - 2025-06-04
 
 ### Fixed

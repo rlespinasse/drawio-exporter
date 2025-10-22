@@ -159,7 +159,7 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
         println!("+ export file : {}", drawio_file_path);
 
         // If 'all pages' option is set and the format is PDF, we export all pages at once
-        if options.all_pages && options.format == "pdf" {
+        if is_pdf_all_pages_enabled(&options) || is_xml_format_enabled(&options) {
             export_pdf_all_pages(&options, &drawio_desktop, &path)?;
         } else {
             export_per_page(&options, &drawio_desktop, &path, mxfile)?;
@@ -167,6 +167,14 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
     }
 
     Ok(())
+}
+
+fn is_pdf_all_pages_enabled(options: &ExporterOptions) -> bool {
+    options.all_pages && options.format == "pdf"
+}
+
+fn is_xml_format_enabled(options: &ExporterOptions) -> bool {
+    options.format == "xml"
 }
 
 fn export_per_page(

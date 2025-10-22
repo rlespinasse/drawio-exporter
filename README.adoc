@@ -6,6 +6,7 @@ Drawio-exporter provides enhanced capabilities to the export feature of drawio-d
 
 * Recursive export
 * Partial export (newer, or based on git reference)
+* Per-page export (except for xml format)
 * Additional export formats with link extraction
 
 == Supported Export formats
