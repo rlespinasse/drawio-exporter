@@ -14,3 +14,7 @@ indent_size = 4
 
 [{*.yaml,*.yml,*.md}]
 indent_size = 2
+
+# Ignore paths
+[*.drawio]
+indent_size = unset
