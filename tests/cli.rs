@@ -3,7 +3,7 @@ mod commands;
 use std::process::Command;
 
 use anyhow::Result;
-use assert_cmd::prelude::*;
+use assert_cmd::cargo;
 use fs_extra::{copy_items, dir};
 use std::fs;
 use std::fs::File;
@@ -32,12 +32,12 @@ impl DrawioExporterCommand {
     }
 
     pub fn new_cmd(&mut self) -> Result<()> {
-        self.cmd = Command::cargo_bin("drawio-exporter")?;
+        self.cmd = Command::new(cargo::cargo_bin!("drawio-exporter"));
         Ok(())
     }
 
     pub fn new_using_data(data: &str, use_local_folder: bool) -> Result<DrawioExporterCommand> {
-        let cmd = Command::cargo_bin("drawio-exporter")?;
+        let cmd = Command::new(cargo::cargo_bin!("drawio-exporter"));
 
         let current_dir = match use_local_folder {
             true => {
