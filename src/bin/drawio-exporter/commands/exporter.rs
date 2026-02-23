@@ -19,7 +19,7 @@ pub fn args() -> Vec<Arg> {
         Arg::new("format")
             .help("Exported format")
             .value_name("format")
-            .value_parser(["adoc", "md", "jpg", "pdf", "png", "svg", "vsdx", "xml"])
+            .value_parser(["adoc", "md", "jpg", "pdf", "png", "svg", "xml"])
             .default_value("pdf")
             .short('f')
             .long("format"),
