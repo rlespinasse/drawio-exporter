@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+
+### Changes
+
+- Support Draw.io Desktop v26.0.1
+  - Remove reference to vsdx export
+
 ## [1.4.0] - 2025-10-22
 
 ### Added
