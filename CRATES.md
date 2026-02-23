@@ -17,7 +17,7 @@ cargo install drawio-exporter
 
 ## Supported Export formats
 
-* **draw.io** export formats : jpg, pdf, png, svg, vsdx, and xml
+* **draw.io** export formats : jpg, pdf, png, svg, and xml
 * **drawio-exporter** additional formats
   * adoc - Export in png and create an additional asciidoc file (with support external links).
   * md - Export in png and create an additional markdown file (with support external links).

@@ -160,25 +160,3 @@ fn export_svg_format() -> Result<()> {
 
     Ok(())
 }
-
-#[test]
-fn export_vsdx_format() -> Result<()> {
-    let mut drawio_exporter = DrawioExporterCommand::new_using_data("types", true)?;
-
-    let output = "+ export file : types/nominal.drawio
-- export page 1 : Page-1
-\\ generate vsdx file
-- export page 2 : Page-2
-\\ generate vsdx file";
-
-    drawio_exporter
-        .cmd
-        .arg("--format")
-        .arg("vsdx")
-        .arg(&drawio_exporter.current_dir)
-        .assert()
-        .success()
-        .stdout(contains(output));
-
-    Ok(())
-}

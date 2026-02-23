@@ -11,7 +11,7 @@ Drawio-exporter provides enhanced capabilities to the export feature of drawio-d
 
 == Supported Export formats
 
-* **draw.io** export formats: jpg, pdf, png, svg, vsdx, and xml
+* **draw.io** export formats: jpg, pdf, png, svg, and xml
 * **drawio-exporter** additional formats
 ** adoc - Export in PNG and create an additional asciidoc file (with support external links).
 ** md - Export in PNG and create an additional markdown file (with support external links).
