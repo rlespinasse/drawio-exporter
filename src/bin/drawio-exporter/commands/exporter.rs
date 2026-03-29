@@ -1,7 +1,12 @@
+use std::io::IsTerminal;
+
 use anyhow::Result;
 use clap::{Arg, ArgAction, ArgMatches};
 use drawio_exporter::core::drawio::drawio_desktop::os_default_application;
 use drawio_exporter::ops::exporter::{ExporterOptions, exporter};
+use drawio_exporter::ops::plain_progress::PlainProgress;
+use drawio_exporter::ops::progress::ExportProgress;
+use drawio_exporter::ops::tui_progress::TuiProgress;
 
 pub fn args() -> Vec<Arg> {
     vec![
@@ -132,59 +137,79 @@ pub fn args() -> Vec<Arg> {
             .short('e')
             .long("embed-diagram")
             .action(ArgAction::SetTrue),
+        // Output options
+        Arg::new("plain-output")
+            .help("Disable TUI progress display, use plain text output")
+            .long("plain")
+            .action(ArgAction::SetTrue),
     ]
 }
 
 pub fn exec(args: &ArgMatches) -> Result<()> {
-    exporter(ExporterOptions {
-        application: args.get_one("application").unwrap(),
-        drawio_desktop_headless: args
-            .get_one::<bool>("drawio-desktop-headless")
-            .copied()
-            .unwrap(),
-        folder: args.get_one("folder").unwrap(),
-        on_filesystem_changes: args.get_one::<bool>("on-changes").copied().unwrap(),
-        on_git_changes_since_reference: args.get_one("git-reference"),
-        remove_page_suffix: args.get_one::<bool>("remove-page-suffix").copied().unwrap(),
-        path: args.get_one::<String>("path").unwrap(),
-        format: args.get_one("format").unwrap(),
-        border: args.get_one("drawio-cli-border").unwrap(),
-        scale: args.get_one("drawio-cli-scale"),
-        enable_plugins: args
-            .get_one::<bool>("drawio-cli-enable-plugins")
-            .copied()
-            .unwrap(),
-        width: args.get_one("drawio-cli-pdf-width"),
-        height: args.get_one("drawio-cli-pdf-height"),
-        crop: args
-            .get_one::<bool>("drawio-cli-pdf-crop")
-            .copied()
-            .unwrap(),
-        all_pages: args
-            .get_one::<bool>("drawio-cli-pdf-all-pages")
-            .copied()
-            .unwrap(),
-        transparent: args
-            .get_one::<bool>("drawio-cli-png-transparent")
-            .copied()
-            .unwrap(),
-        quality: args.get_one("drawio-cli-jpg-quality").unwrap(),
-        uncompressed: args
-            .get_one::<bool>("drawio-cli-xml-uncompressed")
-            .copied()
-            .unwrap(),
-        embed_svg_fonts: *args
-            .get_one::<bool>("drawio-cli-svg-embed-svg-fonts")
-            .unwrap_or(&false),
-        embed_svg_images: args
-            .get_one::<bool>("drawio-cli-svg-embed-svg-images")
-            .copied()
-            .unwrap(),
-        svg_theme: args.get_one("drawio-cli-svg-svg-theme"),
-        svg_links_target: args.get_one("drawio-cli-svg-svg-links-target"),
-        embed_diagram: args
-            .get_one::<bool>("drawio-cli-pdf-png-svg-embed-diagram")
-            .copied()
-            .unwrap(),
-    })
+    let use_plain = args
+        .get_one::<bool>("plain-output")
+        .copied()
+        .unwrap_or(false)
+        || !std::io::stdout().is_terminal();
+
+    let mut progress: Box<dyn ExportProgress> = if use_plain {
+        Box::new(PlainProgress::new())
+    } else {
+        Box::new(TuiProgress::new()?)
+    };
+
+    exporter(
+        ExporterOptions {
+            application: args.get_one("application").unwrap(),
+            drawio_desktop_headless: args
+                .get_one::<bool>("drawio-desktop-headless")
+                .copied()
+                .unwrap(),
+            folder: args.get_one("folder").unwrap(),
+            on_filesystem_changes: args.get_one::<bool>("on-changes").copied().unwrap(),
+            on_git_changes_since_reference: args.get_one("git-reference"),
+            remove_page_suffix: args.get_one::<bool>("remove-page-suffix").copied().unwrap(),
+            path: args.get_one::<String>("path").unwrap(),
+            format: args.get_one("format").unwrap(),
+            border: args.get_one("drawio-cli-border").unwrap(),
+            scale: args.get_one("drawio-cli-scale"),
+            enable_plugins: args
+                .get_one::<bool>("drawio-cli-enable-plugins")
+                .copied()
+                .unwrap(),
+            width: args.get_one("drawio-cli-pdf-width"),
+            height: args.get_one("drawio-cli-pdf-height"),
+            crop: args
+                .get_one::<bool>("drawio-cli-pdf-crop")
+                .copied()
+                .unwrap(),
+            all_pages: args
+                .get_one::<bool>("drawio-cli-pdf-all-pages")
+                .copied()
+                .unwrap(),
+            transparent: args
+                .get_one::<bool>("drawio-cli-png-transparent")
+                .copied()
+                .unwrap(),
+            quality: args.get_one("drawio-cli-jpg-quality").unwrap(),
+            uncompressed: args
+                .get_one::<bool>("drawio-cli-xml-uncompressed")
+                .copied()
+                .unwrap(),
+            embed_svg_fonts: *args
+                .get_one::<bool>("drawio-cli-svg-embed-svg-fonts")
+                .unwrap_or(&false),
+            embed_svg_images: args
+                .get_one::<bool>("drawio-cli-svg-embed-svg-images")
+                .copied()
+                .unwrap(),
+            svg_theme: args.get_one("drawio-cli-svg-svg-theme"),
+            svg_links_target: args.get_one("drawio-cli-svg-svg-links-target"),
+            embed_diagram: args
+                .get_one::<bool>("drawio-cli-pdf-png-svg-embed-diagram")
+                .copied()
+                .unwrap(),
+        },
+        progress.as_mut(),
+    )
 }

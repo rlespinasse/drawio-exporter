@@ -29,6 +29,8 @@ urlencoding = "2.1"
 regex = "1.12"
 git2 = "0.20"
 relative-path = "2.0"
+ratatui = { version = "0.29", features = ["crossterm"] }
+crossterm = "0.28"
 
 [dev-dependencies]
 assert_cmd = "2.1"
