@@ -31,6 +31,9 @@ impl<'a> DrawioDesktop<'a> {
         if self.is_headless {
             shell_arguments.push("--disable-dev-shm-usage");
             shell_arguments.push("--disable-gpu");
+            shell_arguments.push("--disable-features=VaapiVideoDecoder,VaapiVideoEncoder");
+            shell_arguments.push("--disable-accelerated-video-decode");
+            shell_arguments.push("--disable-accelerated-video-encode");
         }
 
         let command_output = Command::new(self.application)
