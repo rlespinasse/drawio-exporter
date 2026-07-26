@@ -30,6 +30,7 @@ impl<'a> DrawioDesktop<'a> {
         shell_arguments.push("--no-sandbox");
         if self.is_headless {
             shell_arguments.push("--disable-dev-shm-usage");
+            shell_arguments.push("--disable-gpu");
         }
 
         let command_output = Command::new(self.application)

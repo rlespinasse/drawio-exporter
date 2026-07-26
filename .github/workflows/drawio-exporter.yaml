@@ -23,8 +23,8 @@ jobs:
       - name: Preflight // Test
         run: |
           sudo apt-get install -y xvfb libnotify4 libsecret-1-0
-          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v29.5.2/drawio-amd64-29.5.2.deb
-          sudo dpkg -i drawio-amd64-29.5.2.deb
+          wget -q https://github.com/jgraph/drawio-desktop/releases/download/v30.3.14/drawio-amd64-30.3.14.deb
+          sudo dpkg -i drawio-amd64-30.3.14.deb
           sudo apt-get -y -f install
 
       - name: Checkout
