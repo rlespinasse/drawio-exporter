@@ -146,7 +146,7 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
         }
         Some(git_reference) => git_repository::explore_path(&input_path, git_reference),
     }
-    .with_context(|| format!("can't explore path {}", &input_path.display()))?;
+    .with_context(|| format!("can't explore path {}", input_path.display()))?;
 
     let drawio_desktop = DrawioDesktop::new(options.application, options.drawio_desktop_headless)?;
 

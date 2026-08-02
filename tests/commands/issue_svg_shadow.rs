@@ -13,7 +13,7 @@ fn export_svg_with_shadow() -> Result<()> {
 
     let output_err = format!(
         "Export failed: {}/svg_shadow/svg_shadow.drawio",
-        &drawio_exporter.current_dir.display()
+        drawio_exporter.current_dir.display()
     );
 
     drawio_exporter
