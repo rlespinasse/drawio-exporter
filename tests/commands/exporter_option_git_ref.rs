@@ -44,7 +44,7 @@ fn export_using_option_git_ref_on_invalid_ref() -> Result<()> {
 Caused by:
     0: can't found reference WRONG_REFERENCE on {}{}
     1: revspec 'WRONG_REFERENCE' not found; class=Reference (4); code=NotFound (-3)",
-        &drawio_exporter.current_dir.display(),
+        drawio_exporter.current_dir.display(),
         Path::new(".").canonicalize()?.join(".git").display(),
         path::MAIN_SEPARATOR
     );

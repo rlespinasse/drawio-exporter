@@ -18,7 +18,7 @@ pub fn explore_path(path: &Path, git_reference: &str) -> Result<Vec<(PathBuf, Mx
 
 fn collect_files_from_git(root_path: &Path, git_reference: &str) -> Result<Vec<PathBuf>> {
     let repo = Repository::discover(root_path)
-        .with_context(|| format!("need to be a git repository {}", &root_path.display()))?;
+        .with_context(|| format!("need to be a git repository {}", root_path.display()))?;
     let mut opts = DiffOptions::new();
     let old_tree = reference_as_tree(&repo, git_reference).with_context(|| {
         format!(
@@ -33,7 +33,7 @@ fn collect_files_from_git(root_path: &Path, git_reference: &str) -> Result<Vec<P
             format!(
                 "can't found modified files from {} under {}",
                 repo.path().display(),
-                &root_path.display()
+                root_path.display()
             )
         })?;
 
