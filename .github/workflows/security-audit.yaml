@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - uses: taiki-e/install-action@v2.85.5
+      - uses: taiki-e/install-action@v2.86.4
         with:
           tool: just
 
