@@ -30,6 +30,12 @@ impl<'a> DrawioDesktop<'a> {
         shell_arguments.push("--no-sandbox");
         if self.is_headless {
             shell_arguments.push("--disable-dev-shm-usage");
+            // No display server means no real GPU access; these silence Electron's
+            // GPU/video-acceleration probing warnings rather than change output.
+            shell_arguments.push("--disable-gpu");
+            shell_arguments.push("--disable-features=VaapiVideoDecoder,VaapiVideoEncoder");
+            shell_arguments.push("--disable-accelerated-video-decode");
+            shell_arguments.push("--disable-accelerated-video-encode");
         }
 
         let command_output = Command::new(self.application)

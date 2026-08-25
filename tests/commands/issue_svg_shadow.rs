@@ -1,4 +1,5 @@
 use crate::DrawioExporterCommand;
+use crate::commands::utils;
 use anyhow::Result;
 use assert_cmd::prelude::*;
 use predicates::prelude::predicate::str::contains;
@@ -11,20 +12,16 @@ fn export_svg_with_shadow() -> Result<()> {
 - export page 1 : Page-1
 \\ generate svg file";
 
-    let output_err = format!(
-        "Export failed: {}/svg_shadow/svg_shadow.drawio",
-        drawio_exporter.current_dir.display()
-    );
-
     drawio_exporter
         .cmd
         .arg("--format")
         .arg("svg")
         .arg(&drawio_exporter.current_dir)
         .assert()
-        .failure()
-        .stdout(contains(output))
-        .stderr(contains(output_err));
+        .success()
+        .stdout(contains(output));
 
-    Ok(())
+    let output_files = vec!["svg_shadow-Page-1.svg"];
+
+    utils::check_generate_files(&mut drawio_exporter, "svg", output_files)
 }
