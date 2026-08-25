@@ -1,6 +1,6 @@
 [package]
 name = "drawio-exporter"
-version = "1.4.1"
+version = "1.5.0"
 edition = "2024"
 authors = ["rlespinasse <romain.lespinasse@gmail.com>"]
 description = "Command Line Client To Enhance Files Export Using Draw.io Application"
