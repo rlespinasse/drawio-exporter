@@ -1,4 +1,3 @@
 [tools]
 just = "1.58.0"
 "cargo:cargo-audit" = "latest"
-"cargo:cargo-tarpaulin" = "latest"

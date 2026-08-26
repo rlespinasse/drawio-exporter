@@ -10,8 +10,9 @@ configure:
     @echo + $@
     rustup component add clippy
     mise install
+    cargo install cargo-tarpaulin
 
-# Execute all developements recipes
+# Execute all developments recipes
 [group('Development mode')]
 loop: fmt clippy-fix idioms-fix fix audit build test
 
