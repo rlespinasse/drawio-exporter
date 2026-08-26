@@ -9,8 +9,7 @@ default:
 configure:
     @echo + $@
     rustup component add clippy
-    cargo install cargo-audit
-    cargo install cargo-tarpaulin
+    mise install
 
 # Execute all developements recipes
 [group('Development mode')]
