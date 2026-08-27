@@ -41,9 +41,7 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-      - uses: taiki-e/install-action@v2.86.4
-        with:
-          tool: just
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
       - name: Build
         run: just build
@@ -58,6 +56,4 @@ jobs:
         run: just clippy
 
       - name: Audit
-        run: |
-          cargo install cargo-audit
-          just audit
+        run: just audit

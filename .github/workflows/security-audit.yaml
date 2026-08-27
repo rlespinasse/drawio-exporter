@@ -21,11 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - uses: taiki-e/install-action@v2.86.4
-        with:
-          tool: just
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
 
       - name: Audit
-        run: |
-          cargo install cargo-audit
-          just audit
+        run: just audit
