@@ -142,7 +142,7 @@ pub struct CompressDiagram {
     pub id: String,
     #[serde(rename = "@name")]
     pub name: String,
-    #[serde(rename = "#content")]
+    #[serde(rename = "#text")]
     pub raw_diagram: String,
 }
 
