@@ -81,6 +81,54 @@ coverage-view:
 deps DEPS="drawio-exporter":
     cargo tree --package {{ DEPS }}
 
+# Update drawio-desktop version used in CI
+[group('Maintenance mode')]
+autoupdate-drawio-desktop:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    WORKFLOW=.github/workflows/drawio-exporter.yaml
+    CURRENT_VERSION=$(sed -n 's/.*drawio-amd64-\([0-9.]*\)\.deb.*/\1/p' "$WORKFLOW" | head -1)
+    DRAWIO_DESKTOP_RELEASE=$(gh release list --repo jgraph/drawio-desktop | grep "Latest" | cut -f1)
+    if [ "$CURRENT_VERSION" = "$DRAWIO_DESKTOP_RELEASE" ]; then
+        echo "Already up to date ($CURRENT_VERSION)"
+        exit 0
+    fi
+    sed -i \
+        -e 's/releases\/download\/v[0-9.]*\/drawio-amd64-[0-9.]*\.deb/releases\/download\/v'$DRAWIO_DESKTOP_RELEASE'\/drawio-amd64-'$DRAWIO_DESKTOP_RELEASE'.deb/' \
+        -e 's/dpkg -i drawio-amd64-[0-9.]*\.deb/dpkg -i drawio-amd64-'$DRAWIO_DESKTOP_RELEASE'.deb/' \
+        "$WORKFLOW"
+    if [ -n "${GITHUB_OUTPUT:-}" ]; then
+        echo "release_version=$DRAWIO_DESKTOP_RELEASE" >> "${GITHUB_OUTPUT}"
+
+        RELEASE_NOTES=$(gh release view "v$DRAWIO_DESKTOP_RELEASE" --repo jgraph/drawio-desktop --json body -q .body)
+        CHANGELOG=$(curl -fsSL "https://raw.githubusercontent.com/jgraph/drawio/v${DRAWIO_DESKTOP_RELEASE}/ChangeLog" || true)
+        if [ -n "$CHANGELOG" ] && grep -qE "^[0-9]{2}-[A-Z]{3}-[0-9]{4}: ${CURRENT_VERSION}$" <<< "$CHANGELOG"; then
+            CORE_CHANGES=$(awk -v old="$CURRENT_VERSION" '
+                /^[0-9]{2}-[A-Z]{3}-[0-9]{4}: / {
+                    ver=$0; sub(/^[0-9]{2}-[A-Z]{3}-[0-9]{4}: /, "", ver)
+                    if (ver == old) exit
+                }
+                { print }
+            ' <<< "$CHANGELOG")
+        else
+            CORE_CHANGES="See [draw.io core ChangeLog](https://github.com/jgraph/drawio/blob/v${DRAWIO_DESKTOP_RELEASE}/ChangeLog)."
+        fi
+
+        {
+            echo "release_notes<<GH_RELEASE_NOTES_EOF"
+            echo "Updates \`drawio-desktop\` from \`$CURRENT_VERSION\` to \`$DRAWIO_DESKTOP_RELEASE\`."
+            echo
+            echo "### drawio-desktop release notes"
+            echo
+            echo "$RELEASE_NOTES"
+            echo
+            echo "### draw.io core ChangeLog ($CURRENT_VERSION -> $DRAWIO_DESKTOP_RELEASE)"
+            echo
+            echo "$CORE_CHANGES"
+            echo "GH_RELEASE_NOTES_EOF"
+        } >> "${GITHUB_OUTPUT}"
+    fi
+
 # Release a new version (Possible values: major, minor, patch, release, rc, beta, alpha)
 [group('Release mode')]
 release LEVEL="alpha":

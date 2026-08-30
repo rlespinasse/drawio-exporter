@@ -1,0 +1,42 @@
+---
+name: Autoupdate Drawio Desktop
+
+on:
+  schedule:
+    - cron: "0 0 * * 1" # Every Monday at midnight (UTC)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: autoupdate-drawio-desktop
+  cancel-in-progress: true
+
+jobs:
+  autoupdate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+
+      - run: just autoupdate-drawio-desktop
+        id: autoupdate-drawio-desktop
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        shell: bash
+
+      - uses: peter-evans/create-pull-request@5f6978faf089d4d20b00c7766989d076bb2fc7f1 # v8.1.1
+        if: steps.autoupdate-drawio-desktop.outputs.release_version != ''
+        with:
+          title: "build: update to drawio-desktop ${{ steps.autoupdate-drawio-desktop.outputs.release_version }}"
+          body: ${{ steps.autoupdate-drawio-desktop.outputs.release_notes }}
+          commit-message: |
+            build: update to drawio-desktop ${{ steps.autoupdate-drawio-desktop.outputs.release_version }}
+
+            ${{ steps.autoupdate-drawio-desktop.outputs.release_notes }}
+          branch: autoupdate-drawio-desktop
+          token: ${{ secrets.GH_TOKEN }}
