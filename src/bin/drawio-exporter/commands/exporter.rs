@@ -30,10 +30,10 @@ pub fn args() -> Vec<Arg> {
             .short('o')
             .long("output"),
         Arg::new("output-mode")
-            .help(
-                "Output mode: 'relative' exports next to each drawio file, \
-                 'absolute' exports under a single output folder mirroring the source tree",
-            )
+            .help(concat!(
+                "Output mode: 'relative' exports next to each drawio file, ",
+                "'absolute' exports under a single output folder mirroring the source tree",
+            ))
             .value_name("mode")
             .value_parser(["relative", "absolute"])
             .default_value("relative")
