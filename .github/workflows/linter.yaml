@@ -38,4 +38,8 @@ jobs:
           # Validated by `cargo clippy` directly in drawio-exporter.yaml file
           VALIDATE_RUST_CLIPPY: false
           VALIDATE_YAML_PRETTIER: false
+          # Fork PRs get a read-only GITHUB_TOKEN, so posting a PR comment
+          # always fails with 403. Report results as a job summary instead.
+          ENABLE_GITHUB_PULL_REQUEST_SUMMARY_COMMENT: false
+          ENABLE_GITHUB_ACTIONS_STEP_SUMMARY: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
