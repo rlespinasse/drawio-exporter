@@ -29,6 +29,15 @@ pub fn args() -> Vec<Arg> {
             .default_value("export")
             .short('o')
             .long("output"),
+        Arg::new("output-mode")
+            .help(concat!(
+                "Output mode: 'relative' exports next to each drawio file, ",
+                "'absolute' exports under a single output folder mirroring the source tree",
+            ))
+            .value_name("mode")
+            .value_parser(["relative", "absolute"])
+            .default_value("relative")
+            .long("output-mode"),
         Arg::new("on-changes")
             .help("Export drawio files only if it's newer than exported files")
             .long("on-changes")
@@ -143,6 +152,7 @@ pub fn exec(args: &ArgMatches) -> Result<()> {
             .copied()
             .unwrap(),
         folder: args.get_one("folder").unwrap(),
+        output_mode: args.get_one::<String>("output-mode").unwrap(),
         on_filesystem_changes: args.get_one::<bool>("on-changes").copied().unwrap(),
         on_git_changes_since_reference: args.get_one("git-reference"),
         remove_page_suffix: args.get_one::<bool>("remove-page-suffix").copied().unwrap(),

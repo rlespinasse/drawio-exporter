@@ -10,6 +10,7 @@ mod exporter_option_enable_plugins;
 mod exporter_option_git_ref;
 mod exporter_option_height;
 mod exporter_option_on_changes;
+mod exporter_option_output_mode;
 mod exporter_option_quality;
 mod exporter_option_remove_page_suffix;
 mod exporter_option_scale;

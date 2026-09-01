@@ -16,6 +16,7 @@ pub struct ExporterOptions<'a> {
     pub application: &'a String,
     pub drawio_desktop_headless: bool,
     pub folder: &'a String,
+    pub output_mode: &'a str,
     pub on_filesystem_changes: bool,
     pub on_git_changes_since_reference: Option<&'a String>,
     pub remove_page_suffix: bool,
@@ -86,8 +87,32 @@ fn should_include_page_suffix(remove_page_suffix: bool, diagram_count: usize) ->
 }
 
 /// Builds the output path for an exported file.
-fn build_output_path(base_path: &Path, folder: &str, filename: &str) -> PathBuf {
-    base_path.parent().unwrap().join(folder).join(filename)
+fn build_output_path(output_dir: &Path, filename: &str) -> PathBuf {
+    output_dir.join(filename)
+}
+
+/// Computes the output directory for a drawio file, depending on the output mode.
+///
+/// In `relative` mode (default), the output directory sits next to the drawio file, inside
+/// `folder`. In `absolute` mode, all output directories are rooted under `input_root/folder`,
+/// mirroring the drawio file's directory structure relative to the explored path, so that files
+/// with the same name in different folders don't collide.
+fn compute_output_dir(
+    options: &ExporterOptions,
+    input_root: &Path,
+    file_path: &Path,
+    relative_file_path: &RelativePath,
+) -> PathBuf {
+    match options.output_mode {
+        "absolute" => {
+            let relative_dir = relative_file_path
+                .parent()
+                .map(|parent| parent.to_path(""))
+                .unwrap_or_default();
+            input_root.join(options.folder).join(relative_dir)
+        }
+        _ => file_path.parent().unwrap().join(options.folder),
+    }
 }
 
 /// Builds export arguments from the exporter options.
@@ -150,19 +175,29 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
 
     let drawio_desktop = DrawioDesktop::new(options.application, options.drawio_desktop_headless)?;
 
-    prepare_export_folders(options.folder, &drawio_files)
-        .with_context(|| format!("can't prepare export folders named {}", options.folder))?;
+    let input_root = if input_path.is_dir() {
+        input_path.clone()
+    } else {
+        input_path
+            .parent()
+            .map(Path::to_path_buf)
+            .unwrap_or_else(|| PathBuf::from("."))
+    };
 
     let drawio_path_base = RelativePath::new(options.path);
     for (path, mxfile) in drawio_files {
         let drawio_file_path = drawio_path_base.relative(RelativePath::new(path.to_str().unwrap()));
         println!("+ export file : {}", drawio_file_path);
 
+        let output_dir = compute_output_dir(&options, &input_root, &path, &drawio_file_path);
+        fs::create_dir_all(&output_dir)
+            .with_context(|| format!("can't prepare export folder {}", output_dir.display()))?;
+
         // If 'all pages' option is set and the format is PDF, we export all pages at once
         if is_pdf_all_pages_enabled(&options) || is_xml_format_enabled(&options) {
-            export_pdf_all_pages(&options, &drawio_desktop, &path)?;
+            export_pdf_all_pages(&options, &drawio_desktop, &path, &output_dir)?;
         } else {
-            export_per_page(&options, &drawio_desktop, &path, mxfile)?;
+            export_per_page(&options, &drawio_desktop, &path, mxfile, &output_dir)?;
         }
     }
 
@@ -182,6 +217,7 @@ fn export_per_page(
     drawio_desktop: &DrawioDesktop,
     path: &Path,
     mxfile: Mxfile,
+    output_dir: &Path,
 ) -> Result<()> {
     let with_page_suffix =
         should_include_page_suffix(options.remove_page_suffix, mxfile.diagrams.len());
@@ -202,7 +238,7 @@ fn export_per_page(
             file_stem_suffix,
             real_format
         );
-        let output_path = build_output_path(path, options.folder, &output_filename);
+        let output_path = build_output_path(output_dir, &output_filename);
 
         println!("\\ generate {} file", real_format);
 
@@ -218,11 +254,11 @@ fn export_per_page(
         if options.format.eq("adoc") || options.format.eq("md") {
             generate_formatted_text_file(
                 options,
-                path,
                 diagram,
                 file_stem,
                 file_stem_suffix,
                 output_filename,
+                output_dir,
             )?;
         }
     }
@@ -233,6 +269,7 @@ fn export_pdf_all_pages(
     options: &ExporterOptions,
     drawio_desktop: &DrawioDesktop,
     path: &Path,
+    output_dir: &Path,
 ) -> Result<()> {
     println!("- export all pages");
     println!("\\ generate {} file", options.format.as_str());
@@ -243,7 +280,7 @@ fn export_pdf_all_pages(
         file_stem.to_str().unwrap(),
         options.format.as_str()
     );
-    let output_path = build_output_path(path, options.folder, &output_filename);
+    let output_path = build_output_path(output_dir, &output_filename);
 
     drawio_desktop.execute(build_export_arguments(
         options,
@@ -256,11 +293,11 @@ fn export_pdf_all_pages(
 
 fn generate_formatted_text_file(
     options: &ExporterOptions<'_>,
-    path: &Path,
     diagram: &Diagram,
     file_stem: &OsStr,
     file_stem_suffix: String,
     output_filename: String,
+    output_dir: &Path,
 ) -> Result<()> {
     println!("\\ generate {} file", options.format);
     let formatted_text_filename = format!(
@@ -269,7 +306,7 @@ fn generate_formatted_text_file(
         file_stem_suffix,
         options.format
     );
-    let formatted_text_path = build_output_path(path, options.folder, &formatted_text_filename);
+    let formatted_text_path = build_output_path(output_dir, &formatted_text_filename);
 
     let mut file = File::create(formatted_text_path)?;
     if options.format.eq("adoc") {
@@ -332,23 +369,6 @@ image::{}[{}]
         } else if options.format.eq("md") {
             writeln!(file, "* [{}]({})", label, link)?;
         }
-    }
-    Ok(())
-}
-
-fn prepare_export_folders(folder: &str, drawio_files: &[(PathBuf, Mxfile)]) -> Result<()> {
-    let parent_paths: Vec<PathBuf> = drawio_files
-        .iter()
-        .map(|(path, _)| path.parent().unwrap().to_path_buf())
-        .collect();
-    for parent_path in parent_paths {
-        fs::create_dir_all(parent_path.join(folder)).with_context(|| {
-            format!(
-                "can't prepare export folder named {} in path {}",
-                folder,
-                parent_path.display()
-            )
-        })?;
     }
     Ok(())
 }
