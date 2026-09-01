@@ -157,9 +157,52 @@ pub fn read_file(path: &Path) -> Result<Mxfile> {
         .with_context(|| format!("can read content of {}", path.display()))?;
     match content.is_empty() {
         true => Ok(Mxfile { diagrams: vec![] }),
-        false => parse_compressed_content(path, content.clone())
-            .or_else(|_| parse_uncompressed_content(path, content)),
+        false => {
+            let mxfile = parse_compressed_content(path, content.clone())
+                .or_else(|_| parse_uncompressed_content(path, content.clone()))?;
+            match mxfile.diagrams.is_empty() && has_bare_mx_graph_model_root(&content) {
+                true => parse_bare_mx_graph_model(path, content).or(Ok(mxfile)),
+                false => Ok(mxfile),
+            }
+        }
     }
+}
+
+/// Checks whether the document's root element is `<mxGraphModel>` rather
+/// than `<mxfile>`. Guards `parse_bare_mx_graph_model` so a genuinely empty
+/// but well-formed `<mxfile pages="0"></mxfile>` (zero real diagrams) is
+/// never mistaken for the bare-root case below -- both parse to zero
+/// diagrams, but only one of them should get a synthetic one.
+fn has_bare_mx_graph_model_root(content: &str) -> bool {
+    let without_xml_declaration = match content.trim_start().strip_prefix("<?xml") {
+        Some(rest) => rest.split_once("?>").map_or(rest, |(_, after)| after),
+        None => content,
+    };
+    without_xml_declaration.trim_start().starts_with("<mxGraphModel")
+}
+
+/// draw.io itself reads and writes a second, valid single-page format: a bare
+/// `<mxGraphModel>` document with no enclosing `<mxfile><diagram>` wrapper.
+/// `parse_uncompressed_content` succeeds against this shape too (serde-xml-rs
+/// doesn't validate the root element name), but silently yields zero
+/// diagrams since there is no `<diagram>` child to match -- so callers who
+/// only check for an `Err` never see a failure. Treat a bare `mxGraphModel`
+/// as one synthetic diagram named after the file stem.
+fn parse_bare_mx_graph_model(path: &Path, content: String) -> Result<Mxfile> {
+    let mx_graph_model: MxGraphModel = serde_xml_rs::from_reader(content.as_bytes())
+        .with_context(|| format!("can parse bare mxGraphModel xml on {}", path.display()))?;
+    let name = path
+        .file_stem()
+        .and_then(|stem| stem.to_str())
+        .unwrap_or("diagram")
+        .to_string();
+    Ok(Mxfile {
+        diagrams: vec![Diagram {
+            id: "0".to_string(),
+            name,
+            mx_graph_model,
+        }],
+    })
 }
 
 fn parse_compressed_content(path: &Path, content: String) -> Result<Mxfile> {
