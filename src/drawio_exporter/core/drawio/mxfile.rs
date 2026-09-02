@@ -155,11 +155,69 @@ pub struct MxfileWithCompressDiagrams {
 pub fn read_file(path: &Path) -> Result<Mxfile> {
     let content = fs::read_to_string(path)
         .with_context(|| format!("can read content of {}", path.display()))?;
+    // Strip a leading UTF-8 BOM (common from Windows editors/PowerShell
+    // redirects) once, up front, so neither this path nor the existing
+    // compressed/uncompressed paths below have to special-case it.
+    let content = match content.strip_prefix('\u{FEFF}') {
+        Some(without_bom) => without_bom.to_string(),
+        None => content,
+    };
     match content.is_empty() {
         true => Ok(Mxfile { diagrams: vec![] }),
+        false if has_bare_mx_graph_model_root(&content) => parse_bare_mx_graph_model(path, content),
         false => parse_compressed_content(path, content.clone())
             .or_else(|_| parse_uncompressed_content(path, content)),
     }
+}
+
+/// Checks whether the document's root element is `<mxGraphModel>` rather
+/// than `<mxfile>`. Guards `parse_bare_mx_graph_model` so a genuinely empty
+/// but well-formed `<mxfile pages="0"></mxfile>` (zero real diagrams) is
+/// never mistaken for the bare-root case below -- both parse to zero
+/// diagrams, but only one of them should get a synthetic one. Checked
+/// before the compressed/uncompressed parse attempts so a bare-root file
+/// (the whole point of this path -- can be several MB with embedded
+/// images) skips straight to the one parse that will actually work,
+/// instead of paying for two parses that are guaranteed to either fail
+/// or return zero diagrams first. Any real error from
+/// `parse_bare_mx_graph_model` propagates directly -- it is the only
+/// candidate parse for this shape, so swallowing its error would
+/// recreate the exact silent-failure bug this function exists to fix.
+///
+/// Assumes `content` has already had a leading BOM stripped (`read_file`
+/// does this once for every path, not just this one).
+fn has_bare_mx_graph_model_root(content: &str) -> bool {
+    let without_xml_declaration = match content.trim_start().strip_prefix("<?xml") {
+        Some(rest) => rest.split_once("?>").map_or(rest, |(_, after)| after),
+        None => content,
+    };
+    without_xml_declaration
+        .trim_start()
+        .starts_with("<mxGraphModel")
+}
+
+/// draw.io itself reads and writes a second, valid single-page format: a bare
+/// `<mxGraphModel>` document with no enclosing `<mxfile><diagram>` wrapper.
+/// `parse_uncompressed_content` succeeds against this shape too (serde-xml-rs
+/// doesn't validate the root element name), but silently yields zero
+/// diagrams since there is no `<diagram>` child to match -- so callers who
+/// only check for an `Err` never see a failure. Treat a bare `mxGraphModel`
+/// as one synthetic diagram named after the file stem.
+fn parse_bare_mx_graph_model(path: &Path, content: String) -> Result<Mxfile> {
+    let mx_graph_model: MxGraphModel = serde_xml_rs::from_reader(content.as_bytes())
+        .with_context(|| format!("can parse bare mxGraphModel xml on {}", path.display()))?;
+    let name = path
+        .file_stem()
+        .and_then(|stem| stem.to_str())
+        .unwrap_or("diagram")
+        .to_string();
+    Ok(Mxfile {
+        diagrams: vec![Diagram {
+            id: "0".to_string(),
+            name,
+            mx_graph_model,
+        }],
+    })
 }
 
 fn parse_compressed_content(path: &Path, content: String) -> Result<Mxfile> {
