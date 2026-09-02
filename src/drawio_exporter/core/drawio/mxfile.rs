@@ -178,7 +178,9 @@ fn has_bare_mx_graph_model_root(content: &str) -> bool {
         Some(rest) => rest.split_once("?>").map_or(rest, |(_, after)| after),
         None => content,
     };
-    without_xml_declaration.trim_start().starts_with("<mxGraphModel")
+    without_xml_declaration
+        .trim_start()
+        .starts_with("<mxGraphModel")
 }
 
 /// draw.io itself reads and writes a second, valid single-page format: a bare
