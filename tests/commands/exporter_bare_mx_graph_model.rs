@@ -25,3 +25,25 @@ fn export_file_without_mxfile_wrapper() -> Result<()> {
 
     Ok(())
 }
+
+/// Same bare <mxGraphModel> shape, but prefixed with a UTF-8 BOM (common
+/// from Windows editors/PowerShell redirects). Must not be missed by the
+/// root-tag detection just because of the leading BOM bytes.
+#[test]
+fn export_file_without_mxfile_wrapper_with_bom() -> Result<()> {
+    let mut drawio_exporter =
+        DrawioExporterCommand::new_using_data("bare_mx_graph_model_with_bom", true)?;
+
+    let output = "+ export file : bare_mx_graph_model_with_bom/bare-mx-graph-model-with-bom.drawio
+- export page 1 : bare-mx-graph-model-with-bom
+\\ generate pdf file";
+
+    drawio_exporter
+        .cmd
+        .arg(&drawio_exporter.current_dir)
+        .assert()
+        .success()
+        .stdout(contains(output));
+
+    Ok(())
+}

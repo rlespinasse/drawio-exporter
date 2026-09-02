@@ -155,16 +155,18 @@ pub struct MxfileWithCompressDiagrams {
 pub fn read_file(path: &Path) -> Result<Mxfile> {
     let content = fs::read_to_string(path)
         .with_context(|| format!("can read content of {}", path.display()))?;
+    // Strip a leading UTF-8 BOM (common from Windows editors/PowerShell
+    // redirects) once, up front, so neither this path nor the existing
+    // compressed/uncompressed paths below have to special-case it.
+    let content = match content.strip_prefix('\u{FEFF}') {
+        Some(without_bom) => without_bom.to_string(),
+        None => content,
+    };
     match content.is_empty() {
         true => Ok(Mxfile { diagrams: vec![] }),
-        false => {
-            let mxfile = parse_compressed_content(path, content.clone())
-                .or_else(|_| parse_uncompressed_content(path, content.clone()))?;
-            match mxfile.diagrams.is_empty() && has_bare_mx_graph_model_root(&content) {
-                true => parse_bare_mx_graph_model(path, content).or(Ok(mxfile)),
-                false => Ok(mxfile),
-            }
-        }
+        false if has_bare_mx_graph_model_root(&content) => parse_bare_mx_graph_model(path, content),
+        false => parse_compressed_content(path, content.clone())
+            .or_else(|_| parse_uncompressed_content(path, content)),
     }
 }
 
@@ -172,7 +174,18 @@ pub fn read_file(path: &Path) -> Result<Mxfile> {
 /// than `<mxfile>`. Guards `parse_bare_mx_graph_model` so a genuinely empty
 /// but well-formed `<mxfile pages="0"></mxfile>` (zero real diagrams) is
 /// never mistaken for the bare-root case below -- both parse to zero
-/// diagrams, but only one of them should get a synthetic one.
+/// diagrams, but only one of them should get a synthetic one. Checked
+/// before the compressed/uncompressed parse attempts so a bare-root file
+/// (the whole point of this path -- can be several MB with embedded
+/// images) skips straight to the one parse that will actually work,
+/// instead of paying for two parses that are guaranteed to either fail
+/// or return zero diagrams first. Any real error from
+/// `parse_bare_mx_graph_model` propagates directly -- it is the only
+/// candidate parse for this shape, so swallowing its error would
+/// recreate the exact silent-failure bug this function exists to fix.
+///
+/// Assumes `content` has already had a leading BOM stripped (`read_file`
+/// does this once for every path, not just this one).
 fn has_bare_mx_graph_model_root(content: &str) -> bool {
     let without_xml_declaration = match content.trim_start().strip_prefix("<?xml") {
         Some(rest) => rest.split_once("?>").map_or(rest, |(_, after)| after),
