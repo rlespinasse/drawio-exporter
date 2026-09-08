@@ -37,7 +37,8 @@ fn export_file_without_mxfile_wrapper() -> Result<()> {
 #[test]
 fn export_file_without_mxfile_wrapper_with_bom() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("bare_mx_graph_model", true)?;
-    drawio_exporter.prepend_utf8_bom_if_missing("bare_mx_graph_model/bare-mx-graph-model.drawio")?;
+    drawio_exporter
+        .prepend_utf8_bom_if_missing("bare_mx_graph_model/bare-mx-graph-model.drawio")?;
 
     let output = "+ export file : bare_mx_graph_model/bare-mx-graph-model.drawio
 - export page 1 : bare-mx-graph-model

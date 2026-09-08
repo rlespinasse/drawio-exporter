@@ -34,7 +34,8 @@ fn export_compressed_mxfile_with_bom() -> Result<()> {
 #[test]
 fn export_uncompressed_mxfile_with_bom() -> Result<()> {
     let mut drawio_exporter = DrawioExporterCommand::new_using_data("mxfile_uncompressed", true)?;
-    drawio_exporter.prepend_utf8_bom_if_missing("mxfile_uncompressed/mxfile-uncompressed.drawio")?;
+    drawio_exporter
+        .prepend_utf8_bom_if_missing("mxfile_uncompressed/mxfile-uncompressed.drawio")?;
 
     let output = "+ export file : mxfile_uncompressed/mxfile-uncompressed.drawio
 - export page 1 : Page-1
