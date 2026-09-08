@@ -2,7 +2,7 @@ use std::fs;
 use std::io::Read;
 use std::path::Path;
 
-use anyhow::{Context, Result};
+use anyhow::{Context, Result, anyhow};
 use base64::{Engine as _, engine::general_purpose};
 use flate2::read::DeflateDecoder;
 use regex::Regex;
@@ -152,6 +152,39 @@ pub struct MxfileWithCompressDiagrams {
     pub diagrams: Vec<CompressDiagram>,
 }
 
+/// A Draw.io Desktop file is either a `.drawio` file whose whole content is
+/// the mxfile/mxGraphModel XML, or a `.drawio.svg` file (a regular SVG that
+/// Draw.io Desktop can also read back) whose mxfile XML is instead embedded,
+/// HTML-entity-escaped, in a `content="..."` attribute on the root element.
+pub fn is_drawio_file(path: &Path) -> bool {
+    path.extension().is_some_and(|ext| ext.eq("drawio")) || is_drawio_svg_file(path)
+}
+
+fn is_drawio_svg_file(path: &Path) -> bool {
+    path.file_name()
+        .and_then(|name| name.to_str())
+        .is_some_and(|name| name.ends_with(".drawio.svg"))
+}
+
+fn extract_mxfile_from_svg(path: &Path, content: &str) -> Result<String> {
+    let re = Regex::new(r#"(?s)\bcontent="([^"]*)""#).unwrap();
+    let raw_content = re
+        .captures(content)
+        .and_then(|caps| caps.get(1))
+        .map(|group| group.as_str())
+        .ok_or_else(|| anyhow!("can't find embedded drawio content in {}", path.display()))?;
+    Ok(decode_html_entities(raw_content))
+}
+
+fn decode_html_entities(text: &str) -> String {
+    text.replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&apos;", "'")
+        .replace("&#10;", "\n")
+        .replace("&amp;", "&")
+}
+
 pub fn read_file(path: &Path) -> Result<Mxfile> {
     let content = fs::read_to_string(path)
         .with_context(|| format!("can read content of {}", path.display()))?;
@@ -161,6 +194,11 @@ pub fn read_file(path: &Path) -> Result<Mxfile> {
     let content = match content.strip_prefix('\u{FEFF}') {
         Some(without_bom) => without_bom.to_string(),
         None => content,
+    };
+    let content = if is_drawio_svg_file(path) {
+        extract_mxfile_from_svg(path, &content)?
+    } else {
+        content
     };
     match content.is_empty() {
         true => Ok(Mxfile { diagrams: vec![] }),

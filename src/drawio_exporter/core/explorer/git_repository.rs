@@ -1,4 +1,4 @@
-use crate::core::drawio::mxfile::{Mxfile, read_file};
+use crate::core::drawio::mxfile::{Mxfile, is_drawio_file, read_file};
 use anyhow::{Context, Result};
 use git2::{DiffOptions, Object, ObjectType, Repository};
 use std::path::{Path, PathBuf};
@@ -40,10 +40,7 @@ fn collect_files_from_git(root_path: &Path, git_reference: &str) -> Result<Vec<P
     let diff_files = diff_output
         .deltas()
         .map(|delta| PathBuf::from(delta.new_file().path().unwrap()))
-        .filter(|path| match path.extension() {
-            Some(ext) => ext.eq("drawio"),
-            None => false,
-        })
+        .filter(|path| is_drawio_file(path))
         .filter(|path| path.exists())
         .filter(|path| {
             path.canonicalize()

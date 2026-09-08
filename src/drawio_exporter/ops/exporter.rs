@@ -81,6 +81,16 @@ fn resolve_export_format(format: &str) -> &str {
     }
 }
 
+/// Computes the file stem to use for exported files. `Path::file_stem` only
+/// strips the last extension, which would leave a `.drawio` suffix behind
+/// for `.drawio.svg` input files, so that double extension is special-cased.
+fn drawio_output_stem(path: &Path) -> &str {
+    let file_name = path.file_name().and_then(OsStr::to_str).unwrap_or_default();
+    file_name
+        .strip_suffix(".drawio.svg")
+        .unwrap_or_else(|| path.file_stem().and_then(OsStr::to_str).unwrap_or_default())
+}
+
 /// Determines whether to include page suffix in output filenames.
 fn should_include_page_suffix(remove_page_suffix: bool, diagram_count: usize) -> bool {
     !(remove_page_suffix && diagram_count == 1)
@@ -226,18 +236,13 @@ fn export_per_page(
         let valid_diagram_name = sanitize_diagram_name(&diagram.name);
         println!("- export page {} : {}", position_to_use, valid_diagram_name);
 
-        let file_stem = path.file_stem().unwrap();
+        let file_stem = drawio_output_stem(path);
         let file_stem_suffix = match with_page_suffix {
             true => format!("-{}", valid_diagram_name),
             false => "".to_string(),
         };
         let real_format = resolve_export_format(options.format.as_str());
-        let output_filename = format!(
-            "{}{}.{}",
-            file_stem.to_str().unwrap(),
-            file_stem_suffix,
-            real_format
-        );
+        let output_filename = format!("{}{}.{}", file_stem, file_stem_suffix, real_format);
         let output_path = build_output_path(output_dir, &output_filename);
 
         println!("\\ generate {} file", real_format);
@@ -274,12 +279,8 @@ fn export_pdf_all_pages(
     println!("- export all pages");
     println!("\\ generate {} file", options.format.as_str());
 
-    let file_stem = path.file_stem().unwrap();
-    let output_filename = format!(
-        "{}.{}",
-        file_stem.to_str().unwrap(),
-        options.format.as_str()
-    );
+    let file_stem = drawio_output_stem(path);
+    let output_filename = format!("{}.{}", file_stem, options.format.as_str());
     let output_path = build_output_path(output_dir, &output_filename);
 
     drawio_desktop.execute(build_export_arguments(
@@ -294,18 +295,13 @@ fn export_pdf_all_pages(
 fn generate_formatted_text_file(
     options: &ExporterOptions<'_>,
     diagram: &Diagram,
-    file_stem: &OsStr,
+    file_stem: &str,
     file_stem_suffix: String,
     output_filename: String,
     output_dir: &Path,
 ) -> Result<()> {
     println!("\\ generate {} file", options.format);
-    let formatted_text_filename = format!(
-        "{}{}.{}",
-        file_stem.to_str().unwrap(),
-        file_stem_suffix,
-        options.format
-    );
+    let formatted_text_filename = format!("{}{}.{}", file_stem, file_stem_suffix, options.format);
     let formatted_text_path = build_output_path(output_dir, &formatted_text_filename);
 
     let mut file = File::create(formatted_text_path)?;
@@ -317,10 +313,7 @@ fn generate_formatted_text_file(
 image::{}[{}]
 
 ",
-            file_stem.to_str().unwrap(),
-            diagram.name,
-            output_filename,
-            diagram.name
+            file_stem, diagram.name, output_filename, diagram.name
         )?;
     } else if options.format.eq("md") {
         write!(
@@ -330,10 +323,7 @@ image::{}[{}]
 ![{}][{}]
 
 ",
-            file_stem.to_str().unwrap(),
-            diagram.name,
-            diagram.name,
-            output_filename,
+            file_stem, diagram.name, diagram.name, output_filename,
         )?;
     }
 

@@ -1,4 +1,4 @@
-use crate::core::drawio::mxfile::{Mxfile, read_file};
+use crate::core::drawio::mxfile::{Mxfile, is_drawio_file, read_file};
 use anyhow::Result;
 use ignore::WalkBuilder;
 use std::fs;
@@ -50,13 +50,7 @@ fn collect_files_from_filesystem(path: &Path) -> Vec<PathBuf> {
     WalkBuilder::new(path)
         .build()
         .filter_map(|r| r.ok())
-        .filter(|d| {
-            d.path().is_file()
-                && match d.path().extension() {
-                    Some(ext) => ext.eq("drawio"),
-                    None => false,
-                }
-        })
+        .filter(|d| d.path().is_file() && is_drawio_file(d.path()))
         .map(|d| d.into_path())
         .collect::<Vec<PathBuf>>()
 }
