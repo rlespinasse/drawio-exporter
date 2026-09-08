@@ -1,0 +1,9 @@
+<mxfile host="Electron" modified="2021-03-28T12:25:43.789Z" version="14.5.1" etag="pBeLuh3KKj7dPBPlaqjQ" type="device" pages="1"><diagram id="KgwwwuPXLq_iXDXmIebJ" name="Page-1"><mxGraphModel dx="800" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+    <mxCell id="2" value="Hello" style="rounded=0;" vertex="1" parent="1">
+      <mxGeometry x="120" y="120" width="120" height="60" as="geometry" />
+    </mxCell>
+  </root>
+</mxGraphModel></diagram></mxfile>

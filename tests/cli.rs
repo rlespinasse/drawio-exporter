@@ -31,6 +31,26 @@ impl DrawioExporterCommand {
         Ok(folder)
     }
 
+    /// Prepends a UTF-8 BOM to an already-copied fixture file, in place,
+    /// unless it already starts with one. Kept as a runtime transformation
+    /// rather than a committed BOM'd fixture so an editor/formatter silently
+    /// stripping the BOM from a checked-in file can't make a BOM regression
+    /// test pass for the wrong reason.
+    pub fn prepend_utf8_bom_if_missing(&self, relative_path: &str) -> Result<()> {
+        let path = self.current_dir.join(relative_path);
+        let content = fs::read(&path)?;
+
+        if content.starts_with(&[0xEF, 0xBB, 0xBF]) {
+            return Ok(());
+        }
+
+        let mut with_bom = vec![0xEF, 0xBB, 0xBF];
+        with_bom.extend(content);
+
+        fs::write(&path, with_bom)?;
+        Ok(())
+    }
+
     pub fn new_cmd(&mut self) -> Result<()> {
         self.cmd = Command::new(cargo::cargo_bin!("drawio-exporter"));
         Ok(())
