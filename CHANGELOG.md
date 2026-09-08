@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- next-header -->
 ## [Unreleased] - ReleaseDate
+## [1.6.0] - 2026-09-08
 
 ### Added
 
@@ -136,7 +137,8 @@ docker-drawio-desktop-headless. No user-facing changes.
   - from a Git repository reference (like commit ID)
 
 <!-- next-url -->
-[Unreleased]: https://github.com/rlespinasse/drawio-exporter/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/rlespinasse/drawio-exporter/compare/v1.6.0...HEAD
+[1.6.0]: https://github.com/rlespinasse/drawio-exporter/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/rlespinasse/drawio-exporter/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/rlespinasse/drawio-exporter/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/rlespinasse/drawio-exporter/compare/v1.3.2...v1.4.0
