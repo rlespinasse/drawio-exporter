@@ -1,6 +1,7 @@
 mod exporter;
 mod exporter_bare_mx_graph_model;
 mod exporter_bom;
+mod exporter_drawio_svg;
 mod exporter_links;
 mod exporter_option_all_pages;
 mod exporter_option_border;
