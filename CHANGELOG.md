@@ -10,17 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add `--output-mode (relative|absolute)` option, `absolute` exports all files under a single
-  output folder mirroring the source tree, avoiding filename collisions between same-named
-  drawio files located in different folders
-- Add `--tui` option (experimental) to display export progress in a terminal UI instead of
-  plain text output
+- Add `--output-mode (relative|absolute)` option, `absolute` exports all files
+  under a single output folder mirroring the source tree, avoiding filename
+  collisions between same-named drawio files located in different folders
+- Add `--tui` option (experimental) to display export progress in a terminal
+  UI instead of plain text output
 
 ### Fixed
 
 - Restore link extraction for compressed drawio diagrams (regression since 1.4.0)
+- Recognize and export `.drawio.svg` files
+- Fix silent zero-output export for bare `<mxGraphModel>` files (no `<mxfile>` wrapper)
 
 ## [1.5.0] - 2026-08-25
+
+Maintenance release: dependency updates, CI fixes, and internal alignment with
+docker-drawio-desktop-headless. No user-facing changes.
+
 ## [1.4.1] - 2026-02-23
 
 ### Changes
@@ -37,7 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - --svg-links-target is available for SVG format
 - Support Draw.io Desktop v26.0.3
   - --embed-svg-fonts is available for SVG format
-- Support '--all-pages' (or '-a') for exporting all pages into one PDF per drawio file
+- Support '--all-pages' (or '-a') for exporting all pages into one PDF per
+  drawio file
 
 ### Fixed
 
