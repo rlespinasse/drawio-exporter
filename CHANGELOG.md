@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add `--output-mode (relative|absolute)` option, `absolute` exports all files under a single
   output folder mirroring the source tree, avoiding filename collisions between same-named
   drawio files located in different folders
+- Add `--tui` option (experimental) to display export progress in a terminal UI instead of
+  plain text output
 
 ### Fixed
 

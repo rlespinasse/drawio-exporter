@@ -5,6 +5,7 @@ use crate::core::drawio::mxfile::{Diagram, Mxfile};
 use crate::core::explorer::filesystem;
 use crate::core::explorer::filesystem::FilterOptions;
 use crate::core::explorer::git_repository;
+use crate::ops::progress::{ExportEvent, ExportProgress};
 use relative_path::RelativePath;
 use std::ffi::OsStr;
 use std::fs;
@@ -158,7 +159,7 @@ fn build_export_arguments<'a>(
     }
 }
 
-pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
+pub fn exporter(options: ExporterOptions<'_>, progress: &mut dyn ExportProgress) -> Result<()> {
     // Fallback in case of an empty path, we take the current directory
     let input_path = match options.path {
         "" => PathBuf::from("."),
@@ -194,10 +195,17 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
             .unwrap_or_else(|| PathBuf::from("."))
     };
 
+    let total_files = drawio_files.len();
+    progress.on_event(ExportEvent::ExportStart { total_files });
+
     let drawio_path_base = RelativePath::new(options.path);
-    for (path, mxfile) in drawio_files {
+    for (file_index, (path, mxfile)) in drawio_files.into_iter().enumerate() {
         let drawio_file_path = drawio_path_base.relative(RelativePath::new(path.to_str().unwrap()));
-        println!("+ export file : {}", drawio_file_path);
+        progress.on_event(ExportEvent::FileStart {
+            path: drawio_file_path.as_ref(),
+            file_index,
+            total_files,
+        });
 
         let output_dir = compute_output_dir(&options, &input_root, &path, &drawio_file_path);
         fs::create_dir_all(&output_dir)
@@ -205,12 +213,22 @@ pub fn exporter(options: ExporterOptions<'_>) -> Result<()> {
 
         // If 'all pages' option is set and the format is PDF, we export all pages at once
         if is_pdf_all_pages_enabled(&options) || is_xml_format_enabled(&options) {
-            export_pdf_all_pages(&options, &drawio_desktop, &path, &output_dir)?;
+            export_pdf_all_pages(&options, &drawio_desktop, &path, &output_dir, progress)?;
         } else {
-            export_per_page(&options, &drawio_desktop, &path, mxfile, &output_dir)?;
+            export_per_page(
+                &options,
+                &drawio_desktop,
+                &path,
+                mxfile,
+                &output_dir,
+                progress,
+            )?;
         }
+
+        progress.on_event(ExportEvent::FileComplete);
     }
 
+    progress.on_event(ExportEvent::ExportComplete);
     Ok(())
 }
 
@@ -228,13 +246,18 @@ fn export_per_page(
     path: &Path,
     mxfile: Mxfile,
     output_dir: &Path,
+    progress: &mut dyn ExportProgress,
 ) -> Result<()> {
-    let with_page_suffix =
-        should_include_page_suffix(options.remove_page_suffix, mxfile.diagrams.len());
+    let total_pages = mxfile.diagrams.len();
+    let with_page_suffix = should_include_page_suffix(options.remove_page_suffix, total_pages);
     for (position, diagram) in mxfile.diagrams.iter().enumerate() {
         let position_to_use = position + 1;
         let valid_diagram_name = sanitize_diagram_name(&diagram.name);
-        println!("- export page {} : {}", position_to_use, valid_diagram_name);
+        progress.on_event(ExportEvent::PageStart {
+            page_index: position_to_use,
+            page_name: &valid_diagram_name,
+            total_pages,
+        });
 
         let file_stem = drawio_output_stem(path);
         let file_stem_suffix = match with_page_suffix {
@@ -245,7 +268,9 @@ fn export_per_page(
         let output_filename = format!("{}{}.{}", file_stem, file_stem_suffix, real_format);
         let output_path = build_output_path(output_dir, &output_filename);
 
-        println!("\\ generate {} file", real_format);
+        progress.on_event(ExportEvent::GenerateFile {
+            format: real_format,
+        });
 
         let page_index_str = position_to_use.to_string();
         drawio_desktop.execute(build_export_arguments(
@@ -264,6 +289,7 @@ fn export_per_page(
                 file_stem_suffix,
                 output_filename,
                 output_dir,
+                progress,
             )?;
         }
     }
@@ -275,9 +301,12 @@ fn export_pdf_all_pages(
     drawio_desktop: &DrawioDesktop,
     path: &Path,
     output_dir: &Path,
+    progress: &mut dyn ExportProgress,
 ) -> Result<()> {
-    println!("- export all pages");
-    println!("\\ generate {} file", options.format.as_str());
+    progress.on_event(ExportEvent::AllPagesStart);
+    progress.on_event(ExportEvent::GenerateFile {
+        format: options.format.as_str(),
+    });
 
     let file_stem = drawio_output_stem(path);
     let output_filename = format!("{}.{}", file_stem, options.format.as_str());
@@ -299,8 +328,11 @@ fn generate_formatted_text_file(
     file_stem_suffix: String,
     output_filename: String,
     output_dir: &Path,
+    progress: &mut dyn ExportProgress,
 ) -> Result<()> {
-    println!("\\ generate {} file", options.format);
+    progress.on_event(ExportEvent::GenerateDocFile {
+        format: options.format,
+    });
     let formatted_text_filename = format!("{}{}.{}", file_stem, file_stem_suffix, options.format);
     let formatted_text_path = build_output_path(output_dir, &formatted_text_filename);
 
@@ -327,30 +359,41 @@ image::{}[{}]
         )?;
     }
 
-    println!("\\ include links in {} file", options.format);
+    progress.on_event(ExportEvent::IncludeLinks {
+        format: options.format,
+    });
     for (link, label) in diagram.get_links() {
         if label.is_empty() {
-            println!(
-                "warn: link not included, due to missing label: link '[missing]' to {}",
-                link
-            );
+            progress.on_event(ExportEvent::LinkWarning {
+                message: format!(
+                    "warn: link not included, due to missing label: link '[missing]' to {}",
+                    link
+                ),
+            });
             continue;
         }
         if link.is_empty() {
-            println!(
-                "warn: link not included, due to missing url: link '{}' to [missing]",
-                label
-            );
+            progress.on_event(ExportEvent::LinkWarning {
+                message: format!(
+                    "warn: link not included, due to missing url: link '{}' to [missing]",
+                    label
+                ),
+            });
             continue;
         }
         if link.starts_with("data:page/id") {
-            println!(
-                "warn: link not included, page link isn't supported, link '{}' to {}",
-                label, link
-            );
+            progress.on_event(ExportEvent::LinkWarning {
+                message: format!(
+                    "warn: link not included, page link isn't supported, link '{}' to {}",
+                    label, link
+                ),
+            });
             continue;
         }
-        println!("link '{}' to {}", label, link);
+        progress.on_event(ExportEvent::LinkIncluded {
+            label: &label,
+            url: &link,
+        });
 
         if options.format.eq("adoc") {
             // Since asciidoc consider '--' string as 'Em dash' string,
