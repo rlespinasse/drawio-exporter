@@ -1,35 +1,26 @@
 version: 2
+
+multi-ecosystem-groups:
+  dependencies:
+    schedule:
+      interval: 'weekly'
+    commit-message:
+      prefix: 'build'
+      include: 'scope'
+
 updates:
   - package-ecosystem: 'cargo'
     directory: '/'
-    schedule:
-      interval: 'weekly'
+    patterns:
+      - '*'
     cooldown:
       default-days: 5
-    commit-message:
-      prefix: 'build'
-      include: 'scope'
-    groups:
-      dependencies:
-        patterns:
-          - '*'
-        update-types:
-          - 'minor'
-          - 'patch'
+    multi-ecosystem-group: 'dependencies'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
-    schedule:
-      interval: 'weekly'
+    patterns:
+      - '*'
     cooldown:
       default-days: 5
-    commit-message:
-      prefix: 'build'
-      include: 'scope'
-    groups:
-      dependencies:
-        patterns:
-          - '*'
-        update-types:
-          - 'minor'
-          - 'patch'
+    multi-ecosystem-group: 'dependencies'
