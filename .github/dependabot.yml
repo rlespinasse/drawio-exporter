@@ -11,6 +11,8 @@ multi-ecosystem-groups:
 updates:
   - package-ecosystem: 'cargo'
     directory: '/'
+    allow:
+      - dependency-type: 'all'
     patterns:
       - '*'
     cooldown:
